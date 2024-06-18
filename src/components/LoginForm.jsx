@@ -1,8 +1,36 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { IoIosArrowBack } from 'react-icons/io';
+import { useState } from 'react';
 
 export default function LoginForm({ switchForm }) {
+	
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const fetchUrl = import.meta.env.VITE_FETCH_URL;
+
+	const handleSubmit = async (e) =>{
+		e.preventDefault();
+		
+		try {
+			const response = await fetch(`${fetchUrl}/api/login`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					email:email,
+					password:password
+				}),
+			})
+			const data= await response.json();
+			console.log(data);
+		} catch (error) {
+			console.error(error);
+		}
+		
+
+	}
 	return (
 		<>
 			<div className="hero min-h-screen bg-base-200">
@@ -18,7 +46,7 @@ export default function LoginForm({ switchForm }) {
 							<IoIosArrowBack className="mr-1" />
 							Back to home
 						</Link>
-						<form className="card-body">
+						<form className="card-body" onSubmit={handleSubmit}>
 							<div className="form-control">
 								<label className="label">
 									<span className="label-text">Email</span>
@@ -28,6 +56,8 @@ export default function LoginForm({ switchForm }) {
 									placeholder="email"
 									className="input input-bordered"
 									required
+									value={email}
+									onChange={(e)=>setEmail(e.target.value)}
 								/>
 							</div>
 							<div className="form-control">
@@ -39,6 +69,8 @@ export default function LoginForm({ switchForm }) {
 									placeholder="password"
 									className="input input-bordered"
 									required
+									value={password}
+									onChange={(e)=>setPassword(e.target.value)}
 								/>
 								<label className="label">
 									<a
@@ -52,12 +84,8 @@ export default function LoginForm({ switchForm }) {
 							<div className="form-control mt-6">
 								<button className="btn btn-primary">Login</button>
 							</div>
-							<input
-								type="file"
-								className="file-input file-input-bordered file-input-secondary w-full max-w-xs"
-							/>
+							
 						</form>
-						<div className="btn btn-success btn-outline w-4 h-4">Button</div>
 					</div>
 				</div>
 			</div>
