@@ -8,7 +8,7 @@ export default function Navbar() {
 	};
 	return (
 		<>
-		<p>vsd,vldskvilsdilv</p>
+
 			<div className="navbar bg-base-100 gap-4">
 				<div className="flex-1 ">
 					<Link to="/">
