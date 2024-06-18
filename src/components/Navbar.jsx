@@ -8,6 +8,7 @@ export default function Navbar() {
 	};
 	return (
 		<>
+		<p>vsd,vldskvilsdilv</p>
 			<div className="navbar bg-base-100 gap-4">
 				<div className="flex-1 ">
 					<Link to="/">
@@ -66,7 +67,7 @@ export default function Navbar() {
 
 					{/* sun icon */}
 					<svg
-						className="swap-off fill-current w-7 h-7"
+						className="swap-off fill-current"
 						xmlns="http://www.w3.org/2000/svg"
 						viewBox="0 0 24 24"
 					>
