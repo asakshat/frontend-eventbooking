@@ -3,7 +3,7 @@ function App() {
 	return (
 		<>
 			<Navbar />
-			<h1>Boobs</h1>
+	<p className='text-cyan-400'>meowwwwww</p>
 		</>
 	);
 }
