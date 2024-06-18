@@ -52,7 +52,12 @@ export default function LoginForm({ switchForm }) {
 							<div className="form-control mt-6">
 								<button className="btn btn-primary">Login</button>
 							</div>
+							<input
+								type="file"
+								className="file-input file-input-bordered file-input-secondary w-full max-w-xs"
+							/>
 						</form>
+						<div className="btn btn-success btn-outline w-4 h-4">Button</div>
 					</div>
 				</div>
 			</div>
