@@ -1,8 +1,39 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { IoIosArrowBack } from 'react-icons/io';
+import { useState } from 'react';
 
 export default function SignUpForm({ switchForm }) {
+
+	const [username, setUsername] = useState("");
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const fetchUrl = import.meta.env.VITE_FETCH_URL;
+
+	const handleSubmit = async (e) =>{
+		e.preventDefault();
+		
+		try {
+			const response = await fetch(`${fetchUrl}/api/signup`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					username:username,
+					email:email,
+					password:password
+				}),
+			})
+			const data= await response.json();
+			console.log(data);
+		} catch (error) {
+			console.error(error);
+		}
+		
+
+	}
+	
 	return (
 		<>
 			<div className="hero min-h-screen bg-base-200">
@@ -18,7 +49,7 @@ export default function SignUpForm({ switchForm }) {
 							<IoIosArrowBack className="mr-1" />
 							Back to home
 						</Link>
-						<form className="card-body">
+						<form className="card-body" onSubmit={handleSubmit}>
 							<div className="form-control">
 								<label className="label">
 									<span className="label-text">Username</span>
@@ -28,6 +59,8 @@ export default function SignUpForm({ switchForm }) {
 									placeholder="username"
 									className="input input-bordered"
 									required
+									value={username}
+									onChange={(e) => setUsername(e.target.value)}
 								/>
 							</div>
 							<div className="form-control">
@@ -39,6 +72,8 @@ export default function SignUpForm({ switchForm }) {
 									placeholder="email"
 									className="input input-bordered"
 									required
+									value={email}
+									onChange={(e) => setEmail(e.target.value)}
 								/>
 							</div>
 							<div className="form-control">
@@ -50,6 +85,8 @@ export default function SignUpForm({ switchForm }) {
 									placeholder="password"
 									className="input input-bordered"
 									required
+									value={password}
+									onChange={(e) => setPassword(e.target.value)}
 								/>
 							</div>
 							<label className="label">
