@@ -3,6 +3,7 @@ function App() {
 	return (
 		<>
 			<Navbar />
+			<h1>Boobs</h1>
 		</>
 	);
 }
