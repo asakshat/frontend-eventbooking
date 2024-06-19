@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { IoIosArrowBack } from 'react-icons/io';
 import { useState } from 'react';
+import Logout from './Logout';
 
 export default function LoginForm({ switchForm }) {
 	
@@ -22,6 +23,8 @@ export default function LoginForm({ switchForm }) {
 					email:email,
 					password:password
 				}),
+				credentials: 'include'
+				
 			})
 			const data= await response.json();
 			console.log(data);
@@ -86,6 +89,7 @@ export default function LoginForm({ switchForm }) {
 							</div>
 							
 						</form>
+						{/* <Logout/> */}
 					</div>
 				</div>
 			</div>

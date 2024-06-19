@@ -14,6 +14,8 @@ import AuthForm from "./pages/AuthForm";
 // import AboutUs from "./components/AboutUs";
 // import JoinUs from "./components/JoinUs";
 import Footer from "./components/Footer";
+import CreateEvent from "./components/CreateEvent";
+import DisplayAllEvents from "./components/DisplayAllEvents";
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
 
           <Route path="/" element={<Homepage />} />
           <Route path="/auth" element={<AuthForm />} />
+          <Route path="/create-event" element={<CreateEvent/>}/>
+          <Route path="/all-events" element={<DisplayAllEvents/>}/>
           {/* <Route path="/events" element={<EventPage />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/joinus" element={<JoinUs />} /> */}
