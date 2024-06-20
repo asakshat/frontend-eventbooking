@@ -70,6 +70,7 @@ function CreateEvent() {
         formData.append('time', time);
         formData.append('location', `${address.streetNumber} ${address.streetName}, ${address.city}, ${address.zipCode}, ${address.country}`);
         formData.append('venue', venue);
+        formData.append('price', price);
         formData.append('description', description);
         formData.append('latitude', coords.lat);
         formData.append('longitude', coords.lng);
@@ -127,6 +128,9 @@ function CreateEvent() {
                 </div>
                 <label>Venue:
                     <input type="text" name="venue" value={venue} onChange={(e) => setVenue(e.target.value)} />
+                </label>
+                <label>Price:
+                    <input type="number" name="price" value={price} onChange={(e) => setPrice(e.target.value)} />
                 </label>
                 <label>Description:
                     <textarea className="w-96 h-24" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>

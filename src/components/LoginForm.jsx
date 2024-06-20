@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { IoIosArrowBack } from 'react-icons/io';
 import { useState } from 'react';
 import Logout from './Logout';
@@ -9,6 +10,7 @@ export default function LoginForm({ switchForm }) {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const fetchUrl = import.meta.env.VITE_FETCH_URL;
+	const navigate = useNavigate();
 
 	const handleSubmit = async (e) =>{
 		e.preventDefault();
@@ -28,6 +30,9 @@ export default function LoginForm({ switchForm }) {
 			})
 			const data= await response.json();
 			console.log(data);
+			if (response.ok) {
+				navigate("/auth");
+			}
 		} catch (error) {
 			console.error(error);
 		}
