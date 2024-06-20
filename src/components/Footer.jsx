@@ -1,13 +1,17 @@
 import React from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   return (
-    <footer className="bg- footer p-10 text-base-content">
+    <footer className="bg-accent dark:bg-neutral footer p-10 text-base-content">
       <aside>
-        <img className="size-16" src="./public/logo.png" alt="Event Booking logo" />
+        <img
+          className="size-16"
+          src="./public/logo.png"
+          alt="Event Booking logo"
+        />
         <br />
         <p>
           Event Booking
@@ -25,7 +29,9 @@ const Footer = () => {
       </nav>
       <nav>
         <h6 className="footer-title">Company</h6>
-        <a className="link link-hover">About us</a>
+        <a className="link link-hover" onClick={() => navigate("/about")}>
+          About us
+        </a>
         <a className="link link-hover">Contact</a>
         <a className="link link-hover">Jobs</a>
         <a className="link link-hover">Press kit</a>
