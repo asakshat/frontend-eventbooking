@@ -1,39 +1,39 @@
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { IoIosArrowBack } from 'react-icons/io';
 import { useState } from 'react';
 import Logout from './Logout';
 
 export default function LoginForm({ switchForm }) {
-	
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
 	const fetchUrl = import.meta.env.VITE_FETCH_URL;
+	const navigate = useNavigate();
 
-	const handleSubmit = async (e) =>{
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		
+
 		try {
 			const response = await fetch(`${fetchUrl}/api/login`, {
-				method: "POST",
+				method: 'POST',
 				headers: {
-					"Content-Type": "application/json",
+					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({
-					email:email,
-					password:password
+					email: email,
+					password: password,
 				}),
-				credentials: 'include'
-				
-			})
-			const data= await response.json();
+				credentials: 'include',
+			});
+			const data = await response.json();
 			console.log(data);
+			if (response.status === 200) {
+				navigate('/');
+			}
 		} catch (error) {
 			console.error(error);
 		}
-		
-
-	}
+	};
 	return (
 		<>
 			<div className="hero min-h-screen bg-base-200">
@@ -60,7 +60,7 @@ export default function LoginForm({ switchForm }) {
 									className="input input-bordered"
 									required
 									value={email}
-									onChange={(e)=>setEmail(e.target.value)}
+									onChange={(e) => setEmail(e.target.value)}
 								/>
 							</div>
 							<div className="form-control">
@@ -73,7 +73,7 @@ export default function LoginForm({ switchForm }) {
 									className="input input-bordered"
 									required
 									value={password}
-									onChange={(e)=>setPassword(e.target.value)}
+									onChange={(e) => setPassword(e.target.value)}
 								/>
 								<label className="label">
 									<a
@@ -87,7 +87,6 @@ export default function LoginForm({ switchForm }) {
 							<div className="form-control mt-6">
 								<button className="btn btn-primary">Login</button>
 							</div>
-							
 						</form>
 						{/* <Logout/> */}
 					</div>
