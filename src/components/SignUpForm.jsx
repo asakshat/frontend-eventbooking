@@ -4,7 +4,7 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function SignUpForm({ switchForm }) {
+export default function SignUpForm({ switchForm, switchToLogin }) {
 
 	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
@@ -31,6 +31,7 @@ export default function SignUpForm({ switchForm }) {
 			const data= await response.json();
 			console.log(data);
 			if (response.ok) {
+				switchToLogin();
 				navigate("/auth");
 			}
 		} catch (error) {

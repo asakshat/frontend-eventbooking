@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react'
 import { useLocation } from "react-router-dom"
-import { Link } from 'react-router-dom';
 import GoogleMapInt from './GoogleMapInt';
 import EventDirections from './EventDirections';
 
@@ -58,7 +57,7 @@ function EventPage() {
                     <p>{event.Title} {event.Organizer.Username}</p>
                     <p>{formatDate(event.Date)} {event.Time}</p>
                     <p>{event.Location}</p>
-                    <p>{event.Venue}</p>
+                    <p>{event.Venue} {event.Price}€</p>
                     <p>{event.Description}</p>
                     <div>
                         <button className='btn btn-primary w-20'>Book Now</button>

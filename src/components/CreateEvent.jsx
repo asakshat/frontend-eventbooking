@@ -1,7 +1,10 @@
 import { useState } from "react";
 import GoogleMapInt from "./GoogleMapInt";
+import { useNavigate } from "react-router-dom";
 
 function CreateEvent() {
+    
+    const navigate = useNavigate();
     const [address, setAddress] = useState({
         streetNumber: '',
         streetName: '',
@@ -87,6 +90,9 @@ function CreateEvent() {
             });
             const data = await response.json();
             console.log(data);
+            if (response.ok) {
+                navigate("/all-events")
+            }
         } catch (error) {
             console.error('Error submitting form:', error);
         }

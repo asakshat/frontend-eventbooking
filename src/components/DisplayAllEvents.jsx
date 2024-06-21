@@ -39,7 +39,7 @@ function DisplayAllEvents() {
                 <p>{event.Title} {event.Organizer?.Username}</p>
                 <p>{formatDate(event.Date)}{event.Time}</p>
                 <p>{event.Location}</p>
-                <p>{event.Venue}</p>
+                <p>{event.Venue} {event.Price}€</p>
                 <div>
                     <Link to={`/event/${event.ID}`} state={event}>
                     <button className='btn btn-primary w-20'>See Event</button>

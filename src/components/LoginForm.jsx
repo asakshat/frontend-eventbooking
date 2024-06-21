@@ -31,7 +31,7 @@ export default function LoginForm({ switchForm }) {
 			const data= await response.json();
 			console.log(data);
 			if (response.ok) {
-				navigate("/auth");
+				navigate("/create-event");
 			}
 		} catch (error) {
 			console.error(error);
