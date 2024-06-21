@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Link, useNavigate } from 'react-router-dom';
 import { IoIosArrowBack } from 'react-icons/io';
 import { useState } from 'react';
-import Logout from './Logout';
+import { toast } from 'sonner';
 
 export default function LoginForm({ switchForm }) {
 	const [email, setEmail] = useState('');
@@ -10,30 +10,49 @@ export default function LoginForm({ switchForm }) {
 	const fetchUrl = import.meta.env.VITE_FETCH_URL;
 	const navigate = useNavigate();
 
-	const handleSubmit = async (e) => {
-		e.preventDefault();
-
-		try {
-			const response = await fetch(`${fetchUrl}/api/login`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					email: email,
-					password: password,
-				}),
-				credentials: 'include',
-			});
-			const data = await response.json();
-			console.log(data);
-			if (response.status === 200) {
-				navigate('/');
+	const handleSubmit = async () => {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const response = await fetch(`${fetchUrl}/api/login`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						email: email,
+						password: password,
+					}),
+					credentials: 'include',
+				});
+				const data = await response.json();
+				console.log(data);
+				if (response.status === 200) {
+					navigate('/');
+					resolve(data);
+				} else {
+					reject(new Error(data.error));
+				}
+			} catch (error) {
+				console.error(error);
+				reject(error);
 			}
-		} catch (error) {
-			console.error(error);
-		}
+		});
 	};
+
+	const handleFormSubmit = (e) => {
+		e.preventDefault();
+		const promise = handleSubmit(e);
+		toast.promise(promise, {
+			loading: 'Loading...',
+			success: (data) => {
+				return `${data.message}`;
+			},
+			error: (error) => {
+				return `${error.message}`;
+			},
+		});
+	};
+
 	return (
 		<>
 			<div className="hero min-h-screen bg-base-200">
@@ -49,7 +68,7 @@ export default function LoginForm({ switchForm }) {
 							<IoIosArrowBack className="mr-1" />
 							Back to home
 						</Link>
-						<form className="card-body" onSubmit={handleSubmit}>
+						<form className="card-body" onSubmit={handleFormSubmit}>
 							<div className="form-control">
 								<label className="label">
 									<span className="label-text">Email</span>
