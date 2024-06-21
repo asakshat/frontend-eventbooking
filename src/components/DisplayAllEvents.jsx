@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function DisplayAllEvents() {
     const [events, setEvents] = useState(null);
+    const navigate = useNavigate();
     
     async function getEventList() {
         try {
@@ -10,7 +11,7 @@ function DisplayAllEvents() {
             const response = await fetch(`${fetchURL}/api/event`)
             const data = await response.json()
             setEvents(data)
-            console.log(data)
+            // console.log(data)
         } catch (error) {
             console.error('Failed to retrieve data:', error)
         }
@@ -18,7 +19,7 @@ function DisplayAllEvents() {
     
     useEffect(() => {
         getEventList()
-    }, [])
+    }, []);
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -37,21 +38,22 @@ function DisplayAllEvents() {
             </div>
             <div className="info">
                 <p>{event.Title} {event.Organizer?.Username}</p>
-                <p>{formatDate(event.Date)}{event.Time}</p>
+                <p>{formatDate(event.Date)} {event.Time}</p>
                 <p>{event.Location}</p>
                 <p>{event.Venue} {event.Price}€</p>
-                <div>
+                <div className="flex gap-2">
                     <Link to={`/event/${event.ID}`} state={event}>
-                    <button className='btn btn-primary w-20'>See Event</button>
+                        <button className='btn btn-primary w-20'>See Event</button>
+                    </Link>
+                    <Link to={`/edit-event/${event.ID}`} state={event}>
+                        <button className='btn btn-primary w-20'>Modify Event</button>
                     </Link>
                 </div>
             </div>
         </div>
         ))}
     </div>
-    )
+    );
 }
-    
 
-
-export default DisplayAllEvents
+export default DisplayAllEvents;

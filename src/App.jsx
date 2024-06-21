@@ -10,6 +10,7 @@ import JoinUs from './components/JoinUs';
 import Footer from './components/Footer';
 import CreateEvent from './components/CreateEvent';
 import DisplayAllEvents from './components/DisplayAllEvents';
+import EditEvent from './components/EditEvent';
 import { Toaster } from 'sonner';
 
 function App() {
@@ -32,7 +33,7 @@ function App() {
 					<Route path="/create-event" element={<CreateEvent />} />
 					<Route path="/events" element={<DisplayAllEvents />} />
 					<Route path="/event/:id" element={<EventPage />} />
-			
+					<Route path="/edit-event/:id" element={<EditEvent />} />
 				</Routes>
 
 				<Footer />
