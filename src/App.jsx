@@ -27,15 +27,12 @@ function App() {
 					<Route path="/*" element={<Error404 />} />
 					<Route path="/" element={<Homepage />} />
 					<Route path="/auth" element={<AuthForm />} />
-					{/* <Route path="/events" element={<EventPage />} /> */}
 					<Route path="/about" element={<AboutUs />} />
 					<Route path="/join" element={<JoinUs />} />
 					<Route path="/create-event" element={<CreateEvent />} />
 					<Route path="/events" element={<DisplayAllEvents />} />
 					<Route path="/event/:id" element={<EventPage />} />
-					{/* <Route path="/events" element={<EventPage />} />
-    		<Route path="/aboutus" element={<AboutUs />} />
-          <Route path="/joinus" element={<JoinUs />} /> */}
+			
 				</Routes>
 
 				<Footer />

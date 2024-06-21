@@ -36,12 +36,10 @@ const AboutUs = () => {
           aliquet, ut tristique sapien ullamcorper. Vivamus at nisl eget nisl
           vehicula iaculis vel sit amet sapien. Integer vel dolor sed dui
           feugiat tristique ac at eros. Aenean a ultrices libero. Cras tempus
-          lorem ac enim semper, in ultricies ex mollis. Pellentesque vel massa
-          molestie, aliquam elit ut, ultrices libero.
+          lorem ac enim semper, in ultricies ex mollis.
         </p>
       </div>
 
-      {/* Right side with background image slideshow */}
       <div className="w-2/5 h-screen relative">
         {images.map((image, index) => (
           <div
