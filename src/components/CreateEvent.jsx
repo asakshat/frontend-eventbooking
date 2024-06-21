@@ -91,7 +91,7 @@ function CreateEvent() {
             const data = await response.json();
             console.log(data);
             if (response.ok) {
-                navigate("/all-events")
+                navigate("/events")
             }
         } catch (error) {
             console.error('Error submitting form:', error);

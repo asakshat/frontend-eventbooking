@@ -49,12 +49,12 @@ function EventPage() {
     return (
         <div className='flex'>
             {!showDirections && 
-            <div className='flex-row' data-theme='cyberpunk'>
+            <div className='flex-row'>
                 <div>
                 <img className='h-72 w-full' src={event.ImageURL} alt="" />
                 </div>
                 <div className='info'>
-                    <p>{event.Title} {event.Organizer.Username}</p>
+                    {/* <p>{event.Title} {event.Organizer.Username}</p> */}
                     <p>{formatDate(event.Date)} {event.Time}</p>
                     <p>{event.Location}</p>
                     <p>{event.Venue} {event.Price}€</p>

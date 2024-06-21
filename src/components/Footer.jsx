@@ -7,7 +7,7 @@ const Footer = () => {
   return (
     <footer className="bg-accent dark:bg-neutral footer p-10 text-base-content">
       <aside>
-        <img className="size-16" src="./logo.png" alt="Event Booking logo" />
+        <img className="size-16" src="./src/assets/logo.png" alt="Event Booking logo" />
         <br />
         <p>
           Event Booking

@@ -24,14 +24,15 @@ function App() {
 			<Router>
 				<Navbar />
 				<Routes>
-					<Route path="/error" element={<Error404 />} />
+					<Route path="/*" element={<Error404 />} />
 					<Route path="/" element={<Homepage />} />
 					<Route path="/auth" element={<AuthForm />} />
-					<Route path="/events" element={<EventPage />} />
+					{/* <Route path="/events" element={<EventPage />} /> */}
 					<Route path="/about" element={<AboutUs />} />
 					<Route path="/join" element={<JoinUs />} />
 					<Route path="/create-event" element={<CreateEvent />} />
-					<Route path="/all-events" element={<DisplayAllEvents />} />
+					<Route path="/events" element={<DisplayAllEvents />} />
+					<Route path="/event/:id" element={<EventPage />} />
 					{/* <Route path="/events" element={<EventPage />} />
     		<Route path="/aboutus" element={<AboutUs />} />
           <Route path="/joinus" element={<JoinUs />} /> */}

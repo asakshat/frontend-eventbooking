@@ -31,7 +31,7 @@ function DisplayAllEvents() {
     return (
     <div className='flex gap-9 flex-wrap '>
         {events && events.events.map(event => (
-        <div key={event.ID} className='w-64 justify-center' data-theme='cyberpunk'>
+        <div key={event.ID} className='w-64 justify-center'>
             <div className='image'>
                 <img src={event.ImageURL} alt="" />
             </div>
