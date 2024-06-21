@@ -32,9 +32,8 @@ function App() {
 					<Route path="/join" element={<JoinUs />} />
 					<Route path="/create-event" element={<CreateEvent />} />
 					<Route path="/all-events" element={<DisplayAllEvents />} />
-					=======
 					{/* <Route path="/events" element={<EventPage />} />
-          <Route path="/aboutus" element={<AboutUs />} />
+    		<Route path="/aboutus" element={<AboutUs />} />
           <Route path="/joinus" element={<JoinUs />} /> */}
 				</Routes>
 

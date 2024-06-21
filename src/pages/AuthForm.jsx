@@ -14,7 +14,7 @@ export default function AuthForm() {
 			{isLogin ? (
 				<LoginForm switchForm={handleSwitch} />
 			) : (
-				<SignUpForm switchForm={handleSwitch} />
+				<SignUpForm switchForm={handleSwitch} switchToLogin={handleSwitch} />
 			)}
 		</>
 	);

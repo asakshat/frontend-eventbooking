@@ -31,17 +31,17 @@ function DisplayAllEvents() {
     return (
     <div className='flex gap-9 flex-wrap '>
         {events && events.events.map(event => (
-        <div key={event.id} className='w-64 justify-center' data-theme='cyberpunk'>
+        <div key={event.ID} className='w-64 justify-center' data-theme='cyberpunk'>
             <div className='image'>
                 <img src={event.ImageURL} alt="" />
             </div>
             <div className="info">
-                <p>{event.Title}</p>
+                <p>{event.Title} {event.Organizer?.Username}</p>
                 <p>{formatDate(event.Date)}{event.Time}</p>
                 <p>{event.Location}</p>
-                <p>{event.Venue}</p>
+                <p>{event.Venue} {event.Price}€</p>
                 <div>
-                    <Link to={`/event/${event.id}`} state={event}>
+                    <Link to={`/event/${event.ID}`} state={event}>
                     <button className='btn btn-primary w-20'>See Event</button>
                     </Link>
                 </div>
