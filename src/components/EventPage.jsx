@@ -86,7 +86,7 @@ function EventPage() {
             </div>
           </div>
         </div>
-      </div  >
+      </div>
       {showDirections && (
         <div className="flex items-center justify-center bg-black bg-opacity-75 text-white m-20">
           <EventDirections coordinates={coordinates} />
