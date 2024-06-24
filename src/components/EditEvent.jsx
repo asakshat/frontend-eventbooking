@@ -10,6 +10,8 @@ function EditEvent() {
     const locationParts = event.Location.split(', ');
     console.log(event);
     const navigate = useNavigate();
+
+    const [responseMessage, setResponseMessage] = useState('');
     const [address, setAddress] = useState({
     streetName: locationParts[0] || '',
     city: locationParts[1] || '',
@@ -88,12 +90,14 @@ function EditEvent() {
                 credentials: 'include'
             });
             const data = await response.json();
+            setResponseMessage('Event successfully edited');
             // console.log(data);
             if (response.ok) {
                 navigate("/events")
             }
         } catch (error) {
             console.error('Error submitting form:', error);
+            setResponseMessage('Error editing event');
         }
     };
 
@@ -105,12 +109,15 @@ function EditEvent() {
                 credentials: 'include'
             });
             const data = await response.json();
+            setResponseMessage('Event successfully deleted');
             // console.log(data);
             if (response.ok) {
                 navigate("/events")
+
             }
         } catch (error) {
             console.error('Error submitting form:', error);
+            setResponseMessage('Error deleting event');
         }
     };
 
@@ -163,6 +170,7 @@ function EditEvent() {
                 <button className="btn btn-primary w-20" type="submit">Submit</button>
                 <button className="btn btn-primary w-20" type="button" onClick={handleDelete}>Delete</button>
             </form>
+            <p>{responseMessage}</p>
             <GoogleMapInt lat={coordinates.lat} lng={coordinates.lng} address={address} />
         </div>
     );

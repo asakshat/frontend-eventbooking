@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 function CreateEvent() {
     
+    const [responseMessage, setResponseMessage] = useState(''); 
     const navigate = useNavigate();
     const [address, setAddress] = useState({
         streetName: '',
@@ -88,11 +89,13 @@ function CreateEvent() {
             });
             const data = await response.json();
             console.log(data);
+            setResponseMessage('Event created successfully!');
             if (response.ok) {
                 navigate("/events")
             }
         } catch (error) {
             console.error('Error submitting form:', error);
+            setResponseMessage('Error creating event. Please try again.');
         }
     };
 
@@ -141,6 +144,7 @@ function CreateEvent() {
                 </label>
                 <button className="btn btn-primary w-20" type="submit">Submit</button>
             </form>
+            <p>{responseMessage}</p>
             <GoogleMapInt lat={coordinates.lat} lng={coordinates.lng} address={address} />
         </div>
     );

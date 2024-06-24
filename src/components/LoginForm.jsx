@@ -5,6 +5,8 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 
 export default function LoginForm({ switchForm }) {
+	
+	const [responseMessage, setResponseMessage] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const fetchUrl = import.meta.env.VITE_FETCH_URL;
@@ -26,6 +28,7 @@ export default function LoginForm({ switchForm }) {
 				});
 				const data = await response.json();
 				console.log(data);
+				setResponseMessage('Login successful');
 				if (response.status === 200) {
 					navigate('/');
 					resolve(data);
@@ -35,6 +38,7 @@ export default function LoginForm({ switchForm }) {
 			} catch (error) {
 				console.error(error);
 				reject(error);
+				setResponseMessage('Error logging in. Please try again.');
 			}
 		});
 	};
