@@ -3,23 +3,25 @@ import GoogleMapInt from "./GoogleMapInt";
 import { useNavigate } from "react-router-dom";
 
 function CreateEvent() {
-  const navigate = useNavigate();
-  const [address, setAddress] = useState({
-    streetNumber: "",
-    streetName: "",
-    city: "",
-    zipCode: "",
-    country: "",
-  });
+    
+    const [responseMessage, setResponseMessage] = useState(''); 
+    const navigate = useNavigate();
+    const [address, setAddress] = useState({
+        streetName: '',
+        city: '',
+        zipCode: '',
+        country: ''
+    });
+    const fullAddress = `${address.streetName}, ${address.city}, ${address.zipCode}, ${address.country}`;
 
-  const [name, setName] = useState("");
-  const [time, setTime] = useState("");
-  const [date, setDate] = useState("");
-  const [venue, setVenue] = useState("");
-  const [price, setPrice] = useState("");
-  const [description, setDescription] = useState("");
-  const [file, setFile] = useState(null);
-  const [coordinates, setCoordinates] = useState({ lat: null, lng: null });
+    const [name, setName] = useState('');
+    const [time, setTime] = useState('');
+    const [date, setDate] = useState('');
+    const [price, setPrice] = useState('');
+    const [description, setDescription] = useState('');
+    const [venue, setVenue] = useState('');
+    const [file, setFile] = useState(null); 
+    const [coordinates, setCoordinates] = useState({ lat: null, lng: null });
 
   const formatDate = (dateString) => {
     const [year, month, day] = dateString.split("-");
@@ -34,11 +36,11 @@ function CreateEvent() {
     }));
   };
 
-  const getCoordinates = async () => {
-    const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-    const fullAddress = `${address.streetNumber} ${address.streetName}, ${address.city}, ${address.zipCode}, ${address.country}`;
-    const encodedAddress = encodeURIComponent(fullAddress);
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}&key=${apiKey}`;
+    // Get the coordinates of the address provided by the event creator
+    const getCoordinates = async () => {
+        const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+        const encodedAddress = encodeURIComponent(fullAddress);
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}&key=${apiKey}`;
 
     try {
       const response = await fetch(url);
@@ -57,45 +59,48 @@ function CreateEvent() {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        const coords = await getCoordinates();
+        const fetchURL = import.meta.env.VITE_FETCH_URL;
+        console.log(date);
+        console.log(time);
+        const formData = new FormData();
+        formData.append('title', name);
+        formData.append('date', formatDate(date));
+        formData.append('time', time);
+        formData.append('location', fullAddress);
+        formData.append('venue', venue);
+        formData.append('price', price);
+        formData.append('description', description);
+        formData.append('latitude', coords.lat);
+        formData.append('longitude', coords.lng);
 
-    const coords = await getCoordinates();
-    const fetchURL = import.meta.env.VITE_FETCH_URL;
-
-    const formData = new FormData();
-    formData.append("title", name);
-    formData.append("date", formatDate(date));
-    formData.append("time", time);
-    formData.append(
-      "location",
-      `${address.streetNumber} ${address.streetName}, ${address.city}, ${address.zipCode}, ${address.country}`
-    );
-    formData.append("venue", venue);
-    formData.append("price", price);
-    formData.append("description", description);
-    formData.append("latitude", coords.lat);
-    formData.append("longitude", coords.lng);
 
     if (file) {
       formData.append("image", file);
+      console.log(file);
+      console.log(file);
     }
 
-    try {
-      const response = await fetch(`${fetchURL}/api/event/create`, {
-        method: "POST",
-        body: formData,
-        credentials: "include",
-      });
-      const data = await response.json();
-      console.log(data);
-      if (response.ok) {
-        navigate("/events");
-      }
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    }
-  };
+        try {
+            const response = await fetch(`${fetchURL}/api/event/create`, {
+                method: 'POST',
+                body: formData,
+                credentials: 'include'
+            });
+            const data = await response.json();
+            console.log(data);
+            setResponseMessage('Event created successfully!');
+            if (response.ok) {
+                navigate("/events")
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            setResponseMessage('Error creating event. Please try again.');
+        }
+    };
 
   return (
     <div className="flex gap-5 p-10">

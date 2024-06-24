@@ -4,26 +4,31 @@ import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
 function EditEvent() {
-  const location = useLocation();
-  const event = location.state || {};
-  const locationParts = event.Location.split(", ");
-  const navigate = useNavigate();
-  const [address, setAddress] = useState({
-    streetNumber: "",
-    streetName: locationParts[0] || "",
-    city: locationParts[1] || "",
-    zipCode: locationParts[2] || "",
-    country: locationParts[3] || "",
-  });
+    
+    const location = useLocation();
+    const event = location.state || {} 
+    const locationParts = event.Location.split(', ');
+    console.log(event);
+    const navigate = useNavigate();
 
-  const [name, setName] = useState(event.Title);
-  const [time, setTime] = useState(event.Time);
-  const [date, setDate] = useState(event.Date);
-  const [price, setPrice] = useState(event.Price);
-  const [description, setDescription] = useState(event.Description);
-  const [venue, setVenue] = useState(event.Venue);
-  const [file, setFile] = useState(event.ImageURL);
-  const [coordinates, setCoordinates] = useState({ lat: null, lng: null });
+    const [responseMessage, setResponseMessage] = useState('');
+    const [address, setAddress] = useState({
+    streetName: locationParts[0] || '',
+    city: locationParts[1] || '',
+    zipCode: locationParts[2] || '',
+    country: locationParts[3] || ''
+});
+    const fullAddress = ` ${address.streetName}, ${address.city}, ${address.zipCode}, ${address.country}`;
+
+    const [name, setName] = useState(event.Title);
+    const [time, setTime] = useState(event.Time);
+    const [date, setDate] = useState(event.Date && event.Date.split('T')[0]);
+    const [price, setPrice] = useState(event.Price);
+    const [description, setDescription] = useState(event.Description);
+    const [venue, setVenue] = useState(event.Venue);
+    const [file, setFile] = useState(event.ImageURL) || null;
+    const [coordinates, setCoordinates] = useState({ lat: null, lng: null });
+    
 
   const formatDate = (dateString) => {
     const [year, month, day] = dateString.split("-");
@@ -38,11 +43,11 @@ function EditEvent() {
     }));
   };
 
-  const getCoordinates = async () => {
-    const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-    const fullAddress = `${address.streetNumber} ${address.streetName}, ${address.city}, ${address.zipCode}, ${address.country}`;
-    const encodedAddress = encodeURIComponent(fullAddress);
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}&key=${apiKey}`;
+    // Get the coordinates of the address provided by the event creator
+    const getCoordinates = async () => {
+        const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+        const encodedAddress = encodeURIComponent(fullAddress);
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}&key=${apiKey}`;
 
     try {
       const response = await fetch(url);
@@ -61,42 +66,63 @@ function EditEvent() {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const fetchURL = import.meta.env.VITE_FETCH_URL;
+        
+        const formData = new FormData();
+        formData.append('title', name);
+        formData.append('date', formatDate(date));
+        formData.append('time', time);
+        formData.append('location', fullAddress);
+        formData.append('venue', venue);
+        formData.append('price', price);
+        formData.append('description', description);
+        if (file) {
+            formData.append('image', file);
+        }
+        
 
-    const coords = await getCoordinates();
-    const fetchURL = import.meta.env.VITE_FETCH_URL;
+        try {
+            const response = await fetch(`${fetchURL}/api/event/update/${event.ID}`, {
+                method: 'PUT',
+                body: formData,
+                credentials: 'include'
+            });
+            const data = await response.json();
+            setResponseMessage('Event successfully edited');
+            // console.log(data);
+            if (response.ok) {
+                navigate("/events")
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            setResponseMessage('Error editing event');
+        }
+    };
 
-    const formData = new FormData();
-    formData.append("title", name);
-    formData.append("date", formatDate(date));
-    formData.append("time", time);
-    formData.append(
-      "location",
-      `${address.streetNumber} ${address.streetName}, ${address.city}, ${address.zipCode}, ${address.country}`
-    );
-    formData.append("venue", venue);
-    formData.append("price", price);
-    formData.append("description", description);
+    const handleDelete = async (e) => {
+        const fetchURL = import.meta.env.VITE_FETCH_URL;
+         try {
+            const response = await fetch(`${fetchURL}/api/event/delete/${event.ID}`, {
+                method: 'DELETE',
+                credentials: 'include'
+            });
+            const data = await response.json();
+            setResponseMessage('Event successfully deleted');
+            // console.log(data);
+            if (response.ok) {
+                navigate("/events")
 
-    if (file) {
-      formData.append("image", file);
-    }
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            setResponseMessage('Error deleting event');
+        }
+    };
 
-    try {
-      const response = await fetch(`${fetchURL}/api/event/update/${event.ID}`, {
-        method: "PUT",
-        body: formData,
-        credentials: "include",
-      });
-      const data = await response.json();
-      if (response.ok) {
-        navigate("/events");
-      }
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    }
-  };
+    getCoordinates();
+    
 
   return (
     <div className="flex gap-5 p-10">

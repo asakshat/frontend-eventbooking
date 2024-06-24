@@ -8,15 +8,17 @@ import {
 function EventDirections({ coordinates }) {
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
-  const [directions, setDirections] = useState(null);
-  const [departPoint, setDepartPoint] = useState({
-    streetNumber: "",
-    streetName: "",
-    city: "",
-    zipCode: "",
-    country: "",
-  });
-  const [error, setError] = useState(null);
+    const [directions, setDirections] = useState(null);
+    const [departPoint, setDepartPoint] = useState({
+        streetName: '',
+        city: '',
+        zipCode: '',
+        country: ''
+    });
+
+    const fullAddress = ` ${departPoint.streetName}, ${departPoint.city}, ${departPoint.zipCode}, ${departPoint.country}`;
+
+    const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,10 +28,10 @@ function EventDirections({ coordinates }) {
     }));
   };
 
-  const calculateDirections = (method) => {
-    const fullAddress = `${departPoint.streetNumber} ${departPoint.streetName}, ${departPoint.city}, ${departPoint.zipCode}, ${departPoint.country}`;
-    const encodedAddress = encodeURIComponent(fullAddress);
-    const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}&key=${apiKey}`;
+    const calculateDirections = (method) => {
+    
+        const encodedAddress = encodeURIComponent(fullAddress);
+        const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}&key=${apiKey}`;
 
     fetch(geocodeUrl)
       .then((response) => response.json())
