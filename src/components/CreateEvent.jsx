@@ -77,8 +77,10 @@ function CreateEvent() {
         formData.append('latitude', coords.lat);
         formData.append('longitude', coords.lng);
 
+
     if (file) {
       formData.append("image", file);
+      console.log(file);
       console.log(file);
     }
 
