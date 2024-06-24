@@ -4,153 +4,281 @@ import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
 function EditEvent() {
-    
-    const location = useLocation();
-    const event = location.state || {} 
-    const locationParts = event.Location.split(', ');
-    console.log(event);
-    const navigate = useNavigate();
-    const [address, setAddress] = useState({
-    streetNumber: '',
-    streetName: locationParts[0] || '',
-    city: locationParts[1] || '',
-    zipCode: locationParts[2] || '',
-    country: locationParts[3] || ''
-});
+  const location = useLocation();
+  const event = location.state || {};
+  const locationParts = event.Location.split(", ");
+  const navigate = useNavigate();
+  const [address, setAddress] = useState({
+    streetNumber: "",
+    streetName: locationParts[0] || "",
+    city: locationParts[1] || "",
+    zipCode: locationParts[2] || "",
+    country: locationParts[3] || "",
+  });
 
-    const [name, setName] = useState(event.Title);
-    const [time, setTime] = useState(event.Time);
-    const [date, setDate] = useState(event.Date);
-    const [price, setPrice] = useState(event.Price);
-    const [description, setDescription] = useState(event.Description);
-    const [venue, setVenue] = useState(event.Venue);
-    const [file, setFile] = useState(event.ImageURL); 
-    const [coordinates, setCoordinates] = useState({ lat: null, lng: null });
-    
+  const [name, setName] = useState(event.Title);
+  const [time, setTime] = useState(event.Time);
+  const [date, setDate] = useState(event.Date);
+  const [price, setPrice] = useState(event.Price);
+  const [description, setDescription] = useState(event.Description);
+  const [venue, setVenue] = useState(event.Venue);
+  const [file, setFile] = useState(event.ImageURL);
+  const [coordinates, setCoordinates] = useState({ lat: null, lng: null });
 
-    const formatDate = (dateString) => {
-        const [year, month, day] = dateString.split("-");
-        return `${day}/${month}/${year}`;
-    };
+  const formatDate = (dateString) => {
+    const [year, month, day] = dateString.split("-");
+    return `${day}/${month}/${year}`;
+  };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setAddress((prevAddress) => ({
-            ...prevAddress,
-            [name]: value
-        }));
-    };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setAddress((prevAddress) => ({
+      ...prevAddress,
+      [name]: value,
+    }));
+  };
 
-    // Get the coordinates of the address provided by the event creator
-    const getCoordinates = async () => {
-        const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-        const fullAddress = `${address.streetNumber} ${address.streetName}, ${address.city}, ${address.zipCode}, ${address.country}`;
-        const encodedAddress = encodeURIComponent(fullAddress);
-        const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}&key=${apiKey}`;
+  const getCoordinates = async () => {
+    const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+    const fullAddress = `${address.streetNumber} ${address.streetName}, ${address.city}, ${address.zipCode}, ${address.country}`;
+    const encodedAddress = encodeURIComponent(fullAddress);
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}&key=${apiKey}`;
 
-        try {
-            const response = await fetch(url);
-            const data = await response.json();
-            if (data.results.length > 0) {
-                const location = data.results[0].geometry.location;
-                setCoordinates({ lat: location.lat, lng: location.lng });
-                return { lat: location.lat, lng: location.lng };
-            } else {
-                console.error('No coordinates found for this address.');
-                return { lat: null, lng: null };
-            }
-        } catch (error) {
-            console.error('Error fetching geocode:', error);
-            return { lat: null, lng: null };
-        }
-    };
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      if (data.results.length > 0) {
+        const location = data.results[0].geometry.location;
+        setCoordinates({ lat: location.lat, lng: location.lng });
+        return { lat: location.lat, lng: location.lng };
+      } else {
+        console.error("No coordinates found for this address.");
+        return { lat: null, lng: null };
+      }
+    } catch (error) {
+      console.error("Error fetching geocode:", error);
+      return { lat: null, lng: null };
+    }
+  };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        
-        const coords = await getCoordinates();
-        const fetchURL = import.meta.env.VITE_FETCH_URL;
-        
-        const formData = new FormData();
-        formData.append('title', name);
-        formData.append('date', formatDate(date));
-        formData.append('time', time);
-        formData.append('location', `${address.streetNumber} ${address.streetName}, ${address.city}, ${address.zipCode}, ${address.country}`);
-        formData.append('venue', venue);
-        formData.append('price', price);
-        formData.append('description', description);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-        if (file) {
-            formData.append('image', file);
-        }
+    const coords = await getCoordinates();
+    const fetchURL = import.meta.env.VITE_FETCH_URL;
 
-        try {
-            const response = await fetch(`${fetchURL}/api/event/update/${event.ID}`, {
-                method: 'PUT',
-                body: formData,
-                credentials: 'include'
-            });
-            const data = await response.json();
-            // console.log(data);
-            if (response.ok) {
-                navigate("/events")
-            }
-        } catch (error) {
-            console.error('Error submitting form:', error);
-        }
-    };
-
-    return (
-        <div className="flex gap-5">
-            <form method="post" className="event-creator" data-theme="cyberpunk" onSubmit={handleSubmit}>
-                <h1 className="self-center">Create Event</h1>
-                <div className="line1">
-                    <label>Name:
-                        <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder={event.Title}/>
-                    </label>
-                    <label>Date:
-                        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} placeholder={event.Date}/>
-                    </label>
-                    <label>Time:
-                        <input type="time" value={time} onChange={(e) => setTime(e.target.value)} placeholder={event.Time}/>
-                    </label>
-                </div>
-                <div className="line2">
-                    <label>Street:
-                        <input type="text" name="streetName" value={address.streetName} onChange={handleChange} placeholder={locationParts[0] || ''}/>
-                    </label>
-                    <label>N°:
-                        <input type="number" className="w-11" name="streetNumber" value={address.streetNumber} onChange={handleChange}/>
-                    </label>
-                    <label>Zip Code:
-                        <input type="text" className="w-11" name="zipCode" value={address.zipCode} onChange={handleChange}/>
-                    </label>
-                </div>
-                <div className="line3">
-                    <label>City:
-                        <input type="text" name="city" value={address.city} onChange={handleChange} />
-                    </label>
-                    <label>Country:
-                        <input type="text" name="country" value={address.country} onChange={handleChange} />
-                    </label>
-                </div>
-                <label>Venue:
-                    <input type="text" name="venue" value={venue} onChange={(e) => setVenue(e.target.value)} placeholder={event.Venue} />
-                </label>
-                <label>Price:
-                    <input type="number" name="price" value={price} onChange={(e) => setPrice(e.target.value)} placeholder={event.Price}/>
-                </label>
-                <label>Description:
-                    <textarea className="w-96 h-24" value={description} onChange={(e) => setDescription(e.target.value)} placeholder={event.Description}></textarea>
-                </label>
-                <label>Add an image:
-                    <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files[0])} />
-                </label>
-                <button className="btn btn-primary w-20" type="submit">Submit</button>
-            </form>
-            <GoogleMapInt lat={coordinates.lat} lng={coordinates.lng} address={address} />
-        </div>
+    const formData = new FormData();
+    formData.append("title", name);
+    formData.append("date", formatDate(date));
+    formData.append("time", time);
+    formData.append(
+      "location",
+      `${address.streetNumber} ${address.streetName}, ${address.city}, ${address.zipCode}, ${address.country}`
     );
+    formData.append("venue", venue);
+    formData.append("price", price);
+    formData.append("description", description);
+
+    if (file) {
+      formData.append("image", file);
+    }
+
+    try {
+      const response = await fetch(`${fetchURL}/api/event/update/${event.ID}`, {
+        method: "PUT",
+        body: formData,
+        credentials: "include",
+      });
+      const data = await response.json();
+      if (response.ok) {
+        navigate("/events");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  };
+
+  return (
+    <div className="flex gap-5 p-10">
+      <form
+        className="w-full max-w-2xl grid grid-cols-1 md:grid-cols-2 gap-6"
+        data-theme="cyberpunk"
+        onSubmit={handleSubmit}
+      >
+        <h1 className="text-3xl font-bold mb-4 md:col-span-2">Edit Event</h1>
+
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Name:</span>
+          </label>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder={event.Title}
+            className="input input-bordered w-full"
+          />
+        </div>
+
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Date:</span>
+          </label>
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            placeholder={event.Date}
+            className="input input-bordered w-full"
+          />
+        </div>
+
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Time:</span>
+          </label>
+          <input
+            type="time"
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+            placeholder={event.Time}
+            className="input input-bordered w-full"
+          />
+        </div>
+
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Street:</span>
+          </label>
+          <input
+            type="text"
+            name="streetName"
+            value={address.streetName}
+            onChange={handleChange}
+            placeholder={locationParts[0] || ""}
+            className="input input-bordered w-full"
+          />
+        </div>
+
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Street Number:</span>
+          </label>
+          <input
+            type="number"
+            name="streetNumber"
+            value={address.streetNumber}
+            onChange={handleChange}
+            className="input input-bordered w-full"
+          />
+        </div>
+
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Zip Code:</span>
+          </label>
+          <input
+            type="text"
+            name="zipCode"
+            value={address.zipCode}
+            onChange={handleChange}
+            className="input input-bordered w-full"
+          />
+        </div>
+
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">City:</span>
+          </label>
+          <input
+            type="text"
+            name="city"
+            value={address.city}
+            onChange={handleChange}
+            className="input input-bordered w-full"
+          />
+        </div>
+
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Country:</span>
+          </label>
+          <input
+            type="text"
+            name="country"
+            value={address.country}
+            onChange={handleChange}
+            className="input input-bordered w-full"
+          />
+        </div>
+
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Venue:</span>
+          </label>
+          <input
+            type="text"
+            name="venue"
+            value={venue}
+            onChange={(e) => setVenue(e.target.value)}
+            placeholder={event.Venue}
+            className="input input-bordered w-full"
+          />
+        </div>
+
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Price:</span>
+          </label>
+          <input
+            type="number"
+            name="price"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            placeholder={event.Price}
+            className="input input-bordered w-full"
+          />
+        </div>
+
+        <div className="form-control md:col-span-2">
+          <label className="label">
+            <span className="label-text">Description:</span>
+          </label>
+          <textarea
+            className="textarea textarea-bordered w-full"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder={event.Description}
+          ></textarea>
+        </div>
+
+        <div className="form-control md:col-span-2">
+          <label className="label">
+            <span className="label-text">Add an image:</span>
+          </label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setFile(e.target.files[0])}
+            className="file-input file-input-bordered w-full"
+          />
+        </div>
+
+        <div className="md:col-span-2">
+          <button className="btn btn-primary w-full" type="submit">
+            Submit
+          </button>
+        </div>
+      </form>
+      <div className="w-full max-w-lg">
+        <GoogleMapInt
+          lat={coordinates.lat}
+          lng={coordinates.lng}
+          address={address}
+        />
+      </div>
+    </div>
+  );
 }
 
 export default EditEvent;
