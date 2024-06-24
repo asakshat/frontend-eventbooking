@@ -79,6 +79,7 @@ function CreateEvent() {
 
     if (file) {
       formData.append("image", file);
+      console.log(file);
     }
 
         try {
