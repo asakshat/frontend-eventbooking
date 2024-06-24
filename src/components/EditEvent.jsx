@@ -5,11 +5,29 @@ import { useLocation } from 'react-router-dom';
 import { toast } from 'sonner';
 
 function EditEvent() {
+<<<<<<< HEAD
 	const location = useLocation();
 	const event = location.state || {};
 	const locationParts = event.Location.split(', ');
 	console.log(event);
 	const navigate = useNavigate();
+=======
+    
+    const location = useLocation();
+    const event = location.state || {} 
+    const locationParts = event.Location.split(', ');
+    console.log(event);
+    const navigate = useNavigate();
+
+    const [responseMessage, setResponseMessage] = useState('');
+    const [address, setAddress] = useState({
+    streetName: locationParts[0] || '',
+    city: locationParts[1] || '',
+    zipCode: locationParts[2] || '',
+    country: locationParts[3] || ''
+});
+    const fullAddress = ` ${address.streetName}, ${address.city}, ${address.zipCode}, ${address.country}`;
+>>>>>>> f4e6677 (azee)
 
 	const [address, setAddress] = useState({
 		streetName: locationParts[0] || '',
@@ -64,6 +82,7 @@ function EditEvent() {
 		}
 	};
 
+<<<<<<< HEAD
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const fetchURL = import.meta.env.VITE_FETCH_URL;
@@ -79,6 +98,45 @@ function EditEvent() {
 		if (file) {
 			formData.append('image', file);
 		}
+=======
+        try {
+            const response = await fetch(`${fetchURL}/api/event/update/${event.ID}`, {
+                method: 'PUT',
+                body: formData,
+                credentials: 'include'
+            });
+            const data = await response.json();
+            setResponseMessage('Event successfully edited');
+            // console.log(data);
+            if (response.ok) {
+                navigate("/events")
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            setResponseMessage('Error editing event');
+        }
+    };
+
+    const handleDelete = async (e) => {
+        const fetchURL = import.meta.env.VITE_FETCH_URL;
+         try {
+            const response = await fetch(`${fetchURL}/api/event/delete/${event.ID}`, {
+                method: 'DELETE',
+                credentials: 'include'
+            });
+            const data = await response.json();
+            setResponseMessage('Event successfully deleted');
+            // console.log(data);
+            if (response.ok) {
+                navigate("/events")
+
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            setResponseMessage('Error deleting event');
+        }
+    };
+>>>>>>> f4e6677 (azee)
 
 		try {
 			const response = await fetch(`${fetchURL}/api/event/update/${event.ID}`, {
@@ -88,6 +146,7 @@ function EditEvent() {
 			});
 			const data = await response.json();
 
+<<<<<<< HEAD
 			// console.log(data);
 			if (response.ok) {
 				navigate('/events');
@@ -300,6 +359,58 @@ function EditEvent() {
 			</div>
 		</div>
 	);
+=======
+    return (
+        <div className="flex gap-5">
+            <form method="post" className="event-creator" data-theme="cyberpunk" onSubmit={handleSubmit}>
+                <h1 className="self-center">Create Event</h1>
+                <div className="line1">
+                    <label>Name:
+                        <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder={event.Title}/>
+                    </label>
+                    <label>Date:
+                        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} placeholder={event.Date}/>
+                    </label>
+                    <label>Time:
+                        <input type="time" value={time} onChange={(e) => setTime(e.target.value)} placeholder={event.Time}/>
+                    </label>
+                </div>
+                <div className="line2">
+                    <label>Street:
+                        <input type="text" name="streetName" value={address.streetName} onChange={handleChange} placeholder={locationParts[0] || ''}/>
+                    </label>
+                    <label>Zip Code:
+                        <input type="text" className="w-11" name="zipCode" value={address.zipCode} onChange={handleChange}/>
+                    </label>
+                </div>
+                <div className="line3">
+                    <label>City:
+                        <input type="text" name="city" value={address.city} onChange={handleChange} />
+                    </label>
+                    <label>Country:
+                        <input type="text" name="country" value={address.country} onChange={handleChange} />
+                    </label>
+                </div>
+                <label>Venue:
+                    <input type="text" name="venue" value={venue} onChange={(e) => setVenue(e.target.value)} placeholder={event.Venue} />
+                </label>
+                <label>Price:
+                    <input type="number" name="price" value={price} onChange={(e) => setPrice(e.target.value)} placeholder={event.Price}/>
+                </label>
+                <label>Description:
+                    <textarea className="w-96 h-24" value={description} onChange={(e) => setDescription(e.target.value)} placeholder={event.Description}></textarea>
+                </label>
+                <label>Add an image:
+                    <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files[0])} />
+                </label>
+                <button className="btn btn-primary w-20" type="submit">Submit</button>
+                <button className="btn btn-primary w-20" type="button" onClick={handleDelete}>Delete</button>
+            </form>
+            <p>{responseMessage}</p>
+            <GoogleMapInt lat={coordinates.lat} lng={coordinates.lng} address={address} />
+        </div>
+    );
+>>>>>>> f4e6677 (azee)
 }
 
 export default EditEvent;

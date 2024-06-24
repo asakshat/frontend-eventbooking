@@ -6,6 +6,10 @@ import { toast } from 'sonner';
 import { UserContext } from './UserContext';
 
 export default function LoginForm({ switchForm }) {
+<<<<<<< HEAD
+=======
+	
+>>>>>>> f4e6677 (azee)
 	const [responseMessage, setResponseMessage] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -29,6 +33,11 @@ export default function LoginForm({ switchForm }) {
 				});
 
 				const data = await response.json();
+<<<<<<< HEAD
+=======
+				console.log(data);
+				setResponseMessage('Login successful');
+>>>>>>> f4e6677 (azee)
 				if (response.status === 200) {
 					setResponseMessage('Login successful');
 
@@ -47,6 +56,7 @@ export default function LoginForm({ switchForm }) {
 				console.error(error);
 				setResponseMessage('Error logging in. Please try again.');
 				reject(error);
+				setResponseMessage('Error logging in. Please try again.');
 			}
 		});
 	};

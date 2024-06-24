@@ -17,6 +17,7 @@ const modules = {
 };
 
 function CreateEvent() {
+<<<<<<< HEAD
   const navigate = useNavigate();
   const [address, setAddress] = useState({
     streetName: "",
@@ -25,6 +26,18 @@ function CreateEvent() {
     country: "",
   });
   const fullAddress = `${address.streetName}, ${address.city}, ${address.zipCode}, ${address.country}`;
+=======
+    
+    const [responseMessage, setResponseMessage] = useState(''); 
+    const navigate = useNavigate();
+    const [address, setAddress] = useState({
+        streetName: '',
+        city: '',
+        zipCode: '',
+        country: ''
+    });
+    const fullAddress = `${address.streetName}, ${address.city}, ${address.zipCode}, ${address.country}`;
+>>>>>>> f4e6677 (azee)
 
   const [name, setName] = useState("");
   const [time, setTime] = useState("");
@@ -86,6 +99,7 @@ function CreateEvent() {
     formData.append("latitude", coords.lat);
     formData.append("longitude", coords.lng);
 
+<<<<<<< HEAD
     if (file) {
       formData.append("image", file);
     }
@@ -148,6 +162,73 @@ function CreateEvent() {
               className="block mt-1 p-2 border rounded w-full"
             />
           </label>
+=======
+        try {
+            const response = await fetch(`${fetchURL}/api/event/create`, {
+                method: 'POST',
+                body: formData,
+                credentials: 'include'
+            });
+            const data = await response.json();
+            console.log(data);
+            setResponseMessage('Event created successfully!');
+            if (response.ok) {
+                navigate("/events")
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            setResponseMessage('Error creating event. Please try again.');
+        }
+    };
+
+    return (
+        <div className="flex gap-5">
+            <form method="post" className="event-creator" data-theme="cyberpunk" onSubmit={handleSubmit}>
+                <h1 className="self-center">Create Event</h1>
+                <div className="line1">
+                    <label>Name:
+                        <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+                    </label>
+                    <label>Date:
+                        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+                    </label>
+                    <label>Time:
+                        <input type="time" value={time} onChange={(e) => setTime(e.target.value)} />
+                    </label>
+                </div>
+                <div className="line2">
+                    <label>Street:
+                        <input type="text" name="streetName" value={address.streetName} onChange={handleChange} />
+                    </label>
+                    <label>Zip Code:
+                        <input type="text" className="w-11" name="zipCode" value={address.zipCode} onChange={handleChange} />
+                    </label>
+                </div>
+                <div className="line3">
+                    <label>City:
+                        <input type="text" name="city" value={address.city} onChange={handleChange} />
+                    </label>
+                    <label>Country:
+                        <input type="text" name="country" value={address.country} onChange={handleChange} />
+                    </label>
+                </div>
+                <label>Venue:
+                    <input type="text" name="venue" value={venue} onChange={(e) => setVenue(e.target.value)} />
+                </label>
+                <label>Price:
+                    <input type="number" name="price" value={price} onChange={(e) => setPrice(e.target.value)} />
+                </label>
+                <label>Description:
+                    <textarea className="w-96 h-24" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+                </label>
+                <label>Add an image:
+                    <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files[0])} />
+                </label>
+                <button className="btn btn-primary w-20" type="submit">Submit</button>
+            </form>
+            <p>{responseMessage}</p>
+            <GoogleMapInt lat={coordinates.lat} lng={coordinates.lng} address={address} />
+>>>>>>> f4e6677 (azee)
         </div>
         <label className="block mb-2 md:col-span-1">
           Street:
