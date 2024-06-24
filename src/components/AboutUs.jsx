@@ -1,28 +1,26 @@
 import React, { useState, useEffect } from "react";
 
-
 const images = [
-  'https://images.lifestyleasia.com/wp-content/uploads/sites/3/2022/04/07111030/tijs-van-leur-Qnlp3FCO2vc-unsplash-scaled.jpg',
-  'https://s3-ap-southeast-2.amazonaws.com/ish-oncourse-scc/85edf77e-03d4-4d37-8171-130776d6d4d2?versionId=CyqL4UCaGm9Ld.YzcsTqQah7LpCs.E2m',
-  'https://liquidcapitalcorp.com/wp-content/uploads/2018/04/Prepare-for-a-conference.jpg',
-  'https://static01.nyt.com/images/2017/09/20/business/21ebiz1/21ebiz1-superJumbo.jpg',
-  'https://www.loghicconnect.com.au/wp-content/uploads/2020/05/Untitled-design-2023-03-16T112342.403.jpg',
-  'https://www.johntalk.com/wp-content/uploads/2018/06/The-Benefits-of-Working-Music-Festivals.jpg',
-  'https://www.nevadaart.org/wp-content/uploads/2018/11/2018_GalleryShot_AlteredLandscape1.jpg',
-  'https://www.walksinsiderome.com/wp-content/uploads/2023/01/italian-cooking-class-in-rome.jpg',
-  'https://www.johntalk.com/wp-content/uploads/2018/06/The-Benefits-of-Working-Music-Festivals.jpg',
+  "https://images.lifestyleasia.com/wp-content/uploads/sites/3/2022/04/07111030/tijs-van-leur-Qnlp3FCO2vc-unsplash-scaled.jpg",
+  "https://s3-ap-southeast-2.amazonaws.com/ish-oncourse-scc/85edf77e-03d4-4d37-8171-130776d6d4d2?versionId=CyqL4UCaGm9Ld.YzcsTqQah7LpCs.E2m",
+  "https://liquidcapitalcorp.com/wp-content/uploads/2018/04/Prepare-for-a-conference.jpg",
+  "https://static01.nyt.com/images/2017/09/20/business/21ebiz1/21ebiz1-superJumbo.jpg",
+  "https://www.loghicconnect.com.au/wp-content/uploads/2020/05/Untitled-design-2023-03-16T112342.403.jpg",
+  "https://www.johntalk.com/wp-content/uploads/2018/06/The-Benefits-of-Working-Music-Festivals.jpg",
+  "https://www.nevadaart.org/wp-content/uploads/2018/11/2018_GalleryShot_AlteredLandscape1.jpg",
+  "https://www.walksinsiderome.com/wp-content/uploads/2023/01/italian-cooking-class-in-rome.jpg",
+  "https://www.johntalk.com/wp-content/uploads/2018/06/The-Benefits-of-Working-Music-Festivals.jpg",
 ];
 
 const AboutUs = () => {
-
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 6000); 
+    }, 6000);
 
-    return () => clearInterval(interval); 
+    return () => clearInterval(interval);
   }, []);
 
   return (
