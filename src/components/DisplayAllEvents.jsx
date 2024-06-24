@@ -61,7 +61,7 @@ function DisplayAllEvents() {
           : events.events.map((event) => (
               <div
                 key={event.ID}
-                className="w-64 h-96 flex flex-col justify-between border p-4"
+                className="w-64 bg-white rounded-lg shadow-lg p-6 h-96 flex flex-col justify-between border"
               >
                 <div className="image h-32 mb-4">
                   <img
