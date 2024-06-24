@@ -112,7 +112,16 @@ function EventPage() {
               {event.Description}
             </p>
             <div className="flex gap-4">
-              <button className="btn btn-primary w-32">Book Now</button>
+                <button className='btn btn-primary w-20'
+                    onClick={()=> setShowBooking(true)}>Book now</button>
+                    
+                    {showBooking && 
+                    <form >
+                        <input type="text" placeholder="First Name" value={firstname} onChange={(e) => setFirstname(e.target.value)} />
+                        <input type="text" placeholder="Last Name" value={lastname} onChange={(e) => setLastname(e.target.value)} />
+                        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                        <button type="submit" onClick={handleBooking} className='btn btn-primary w-20'>Book Now</button>
+                    </form>}
               <button
                 className="btn btn-secondary w-32"
                 onClick={() => setShowDirections(true)}
@@ -132,7 +141,12 @@ function EventPage() {
           >
             Back to Event
           </button>
-    return (
+        </div>
+      )}
+    </div>
+  );
+}
+    {/* return (
         <div className='flex'>
             {!showDirections && 
             <div className='flex-row' data-theme='cyberpunk'>
@@ -180,6 +194,7 @@ function EventPage() {
       </div>
     </div>
   );
-}
+} */}
+
 
 export default EventPage;

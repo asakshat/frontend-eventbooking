@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GoogleMapInt from "./GoogleMapInt";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -121,7 +121,10 @@ function EditEvent() {
         }
     };
 
-    getCoordinates();
+    useEffect(() => {
+        getCoordinates();
+    }
+    , []);
     
 
   return (
