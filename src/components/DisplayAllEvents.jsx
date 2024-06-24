@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function DisplayAllEvents() {
   const [events, setEvents] = useState(null);
+  const navigate = useNavigate();
 
   async function getEventList() {
     try {
@@ -37,43 +38,62 @@ function DisplayAllEvents() {
         </p>
       </div>
       <div className="flex flex-wrap gap-9">
-        {events &&
-          events.events.map((event) => (
-            <div
-              key={event.ID}
-              className="w-64 h-96 flex flex-col justify-between border p-4"
-            >
-              <div className="image h-32 mb-4">
-                <img
-                  src={event.ImageURL}
-                  alt={event.Title}
-                  className="object-cover h-full w-full"
-                />
+        {!events
+          ? Array.from({ length: 6 }).map((_, index) => (
+              <div
+                key={index}
+                className="w-64 h-96 flex flex-col justify-between border p-4"
+              >
+                <div className="skeleton h-32 w-full mb-4"></div>
+                <div className="flex-grow">
+                  <div className="skeleton h-4 w-28 mb-2"></div>
+                  <div className="skeleton h-4 w-full mb-2"></div>
+                  <div className="skeleton h-4 w-full mb-2"></div>
+
+                  <div className="skeleton h-4 w-full mb-2"></div>
+                </div>
+                <div className="flex gap-2 mt-4">
+                  <div className="skeleton btn w-20"></div>
+                  <div className="skeleton btn w-20"></div>
+                </div>
               </div>
-              <div className="info flex-grow">
-                <p className="font-bold truncate">
-                  {event.Title} - {event.Organizer?.Username}
-                </p>
-                <p>
-                  {formatDate(event.Date)} {event.Time}
-                </p>
-                <p className="truncate">{event.Location}</p>
-                <p>
-                  {event.Venue} {event.Price}€
-                </p>
+            ))
+          : events.events.map((event) => (
+              <div
+                key={event.ID}
+                className="w-64 h-96 flex flex-col justify-between border p-4"
+              >
+                <div className="image h-32 mb-4">
+                  <img
+                    src={event.ImageURL}
+                    alt={event.Title}
+                    className="object-cover h-full w-full"
+                  />
+                </div>
+                <div className="info flex-grow">
+                  <p className="font-bold truncate">
+                    {event.Title} - {event.Organizer?.Username}
+                  </p>
+                  <p>
+                    {formatDate(event.Date)} {event.Time}
+                  </p>
+                  <p className="truncate">{event.Location}</p>
+                  <p>
+                    {event.Venue} {event.Price}€
+                  </p>
+                </div>
+                <div className="flex gap-2 mt-4">
+                  <Link to={`/event/${event.ID}`} state={event}>
+                    <button className="btn btn-primary w-20">See Event</button>
+                  </Link>
+                  <Link to={`/edit-event/${event.ID}`} state={event}>
+                    <button className="btn btn-secondary w-20">
+                      Modify Event
+                    </button>
+                  </Link>
+                </div>
               </div>
-              <div className="flex gap-2 mt-4">
-                <Link to={`/event/${event.ID}`} state={event}>
-                  <button className="btn btn-primary w-20">See Event</button>
-                </Link>
-                <Link to={`/edit-event/${event.ID}`} state={event}>
-                  <button className="btn btn-secondary w-20">
-                    Modify Event
-                  </button>
-                </Link>
-              </div>
-            </div>
-          ))}
+            ))}
       </div>
     </div>
   );
