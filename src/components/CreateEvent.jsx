@@ -6,17 +6,16 @@ function CreateEvent() {
     
     const navigate = useNavigate();
     const [address, setAddress] = useState({
-        streetNumber: '',
         streetName: '',
         city: '',
         zipCode: '',
         country: ''
     });
+    const fullAddress = `${address.streetName}, ${address.city}, ${address.zipCode}, ${address.country}`;
 
     const [name, setName] = useState('');
     const [time, setTime] = useState('');
     const [date, setDate] = useState('');
-    const [participants, setParticipants] = useState('');
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
     const [venue, setVenue] = useState('');
@@ -39,7 +38,6 @@ function CreateEvent() {
     // Get the coordinates of the address provided by the event creator
     const getCoordinates = async () => {
         const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-        const fullAddress = `${address.streetNumber} ${address.streetName}, ${address.city}, ${address.zipCode}, ${address.country}`;
         const encodedAddress = encodeURIComponent(fullAddress);
         const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}&key=${apiKey}`;
 
@@ -71,7 +69,7 @@ function CreateEvent() {
         formData.append('title', name);
         formData.append('date', formatDate(date));
         formData.append('time', time);
-        formData.append('location', `${address.streetNumber} ${address.streetName}, ${address.city}, ${address.zipCode}, ${address.country}`);
+        formData.append('location', fullAddress);
         formData.append('venue', venue);
         formData.append('price', price);
         formData.append('description', description);
@@ -116,9 +114,6 @@ function CreateEvent() {
                 <div className="line2">
                     <label>Street:
                         <input type="text" name="streetName" value={address.streetName} onChange={handleChange} />
-                    </label>
-                    <label>N°:
-                        <input type="number" className="w-11" name="streetNumber" value={address.streetNumber} onChange={handleChange} />
                     </label>
                     <label>Zip Code:
                         <input type="text" className="w-11" name="zipCode" value={address.zipCode} onChange={handleChange} />

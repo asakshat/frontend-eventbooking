@@ -11,20 +11,20 @@ function EditEvent() {
     console.log(event);
     const navigate = useNavigate();
     const [address, setAddress] = useState({
-    streetNumber: '',
     streetName: locationParts[0] || '',
     city: locationParts[1] || '',
     zipCode: locationParts[2] || '',
     country: locationParts[3] || ''
 });
+    const fullAddress = ` ${address.streetName}, ${address.city}, ${address.zipCode}, ${address.country}`;
 
     const [name, setName] = useState(event.Title);
     const [time, setTime] = useState(event.Time);
-    const [date, setDate] = useState(event.Date);
+    const [date, setDate] = useState(event.Date && event.Date.split('T')[0]);
     const [price, setPrice] = useState(event.Price);
     const [description, setDescription] = useState(event.Description);
     const [venue, setVenue] = useState(event.Venue);
-    const [file, setFile] = useState(event.ImageURL); 
+    const [file, setFile] = useState(event.ImageURL) || null;
     const [coordinates, setCoordinates] = useState({ lat: null, lng: null });
     
 
@@ -44,7 +44,6 @@ function EditEvent() {
     // Get the coordinates of the address provided by the event creator
     const getCoordinates = async () => {
         const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-        const fullAddress = `${address.streetNumber} ${address.streetName}, ${address.city}, ${address.zipCode}, ${address.country}`;
         const encodedAddress = encodeURIComponent(fullAddress);
         const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}&key=${apiKey}`;
 
@@ -67,22 +66,20 @@ function EditEvent() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        const coords = await getCoordinates();
         const fetchURL = import.meta.env.VITE_FETCH_URL;
         
         const formData = new FormData();
         formData.append('title', name);
         formData.append('date', formatDate(date));
         formData.append('time', time);
-        formData.append('location', `${address.streetNumber} ${address.streetName}, ${address.city}, ${address.zipCode}, ${address.country}`);
+        formData.append('location', fullAddress);
         formData.append('venue', venue);
         formData.append('price', price);
         formData.append('description', description);
-
         if (file) {
             formData.append('image', file);
         }
+        
 
         try {
             const response = await fetch(`${fetchURL}/api/event/update/${event.ID}`, {
@@ -99,6 +96,26 @@ function EditEvent() {
             console.error('Error submitting form:', error);
         }
     };
+
+    const handleDelete = async (e) => {
+        const fetchURL = import.meta.env.VITE_FETCH_URL;
+         try {
+            const response = await fetch(`${fetchURL}/api/event/delete/${event.ID}`, {
+                method: 'DELETE',
+                credentials: 'include'
+            });
+            const data = await response.json();
+            // console.log(data);
+            if (response.ok) {
+                navigate("/events")
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+        }
+    };
+
+    getCoordinates();
+    
 
     return (
         <div className="flex gap-5">
@@ -118,9 +135,6 @@ function EditEvent() {
                 <div className="line2">
                     <label>Street:
                         <input type="text" name="streetName" value={address.streetName} onChange={handleChange} placeholder={locationParts[0] || ''}/>
-                    </label>
-                    <label>N°:
-                        <input type="number" className="w-11" name="streetNumber" value={address.streetNumber} onChange={handleChange}/>
                     </label>
                     <label>Zip Code:
                         <input type="text" className="w-11" name="zipCode" value={address.zipCode} onChange={handleChange}/>
@@ -147,6 +161,7 @@ function EditEvent() {
                     <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files[0])} />
                 </label>
                 <button className="btn btn-primary w-20" type="submit">Submit</button>
+                <button className="btn btn-primary w-20" type="button" onClick={handleDelete}>Delete</button>
             </form>
             <GoogleMapInt lat={coordinates.lat} lng={coordinates.lng} address={address} />
         </div>
