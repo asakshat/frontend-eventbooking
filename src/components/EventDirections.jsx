@@ -69,7 +69,7 @@ function EventDirections({ coordinates }) {
     };
 
     return (
-        <div>
+        <div className='flex min-h-screen'>
             <form method="post" className="event-creator" data-theme="cyberpunk" onSubmit={(e) => e.preventDefault()}>
                 <label>
                     Street:
