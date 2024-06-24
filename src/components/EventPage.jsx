@@ -8,7 +8,6 @@ function EventPage() {
   const [coordinates, setCoordinates] = useState({ lat: null, lng: null });
   const location = useLocation();
   const event = location.state || {};
-  console.log(event);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -45,56 +44,68 @@ function EventPage() {
   }, []);
 
   return (
-    <div className="flex min-h-screen">
-      {!showDirections && (
-        <div className="flex-row w-full" data-theme="cyberpunk">
-          <div>
-            <img
-              className="h-72 w-full object-cover"
-              src={event.ImageURL}
-              alt=""
-            />
-          </div>
-          <div className="info p-4">
-            <p className="text-xl font-bold">
+    <div className="flex flex-col min-h-screen">
+      <div className="flex-1 overflow-hidden">
+        <div
+          className="h-80 bg-cover bg-top"
+          style={{ backgroundImage: `url(${event.ImageURL})` }}
+        ></div>
+        <div className="max-w-screen-xl mx-auto p-6">
+          <div className="bg-white rounded-lg shadow-lg p-6">
+            <h1 className="text-3xl font-bold mb-4">
               {event.Title} - {event.Organizer.Username}
+            </h1>
+            <p className="text-lg mb-2">
+              <strong>Date & Time: </strong>
+              {formatDate(event.Date)} at {event.Time}
             </p>
-            <p className="text-md">
-              {formatDate(event.Date)} {event.Time}
+            <p className="text-lg mb-2">
+              <strong>Location: </strong>
+              {event.Location}
             </p>
-            <p className="text-md truncate">{event.Location}</p>
-            <p className="text-md">
-              {event.Venue} {event.Price}€
+            <p className="text-lg mb-2">
+              <strong>Venue: </strong>
+              {event.Venue}
             </p>
-            <p className="text-md">{event.Description}</p>
-            <div className="mt-4">
-              <button className="btn btn-primary w-20 mr-2">Book Now</button>
+            <p className="text-lg mb-2">
+              <strong>Price: </strong>
+              {event.Price}€
+            </p>
+            <p className="text-lg mb-4">
+              <strong>Description: </strong>
+              {event.Description}
+            </p>
+            <div className="flex gap-4">
+              <button className="btn btn-primary w-32">Book Now</button>
               <button
-                className="btn btn-primary w-20"
+                className="btn btn-secondary w-32"
                 onClick={() => setShowDirections(true)}
               >
                 Get Directions
               </button>
             </div>
           </div>
-          <GoogleMapInt
-            lat={coordinates.lat}
-            lng={coordinates.lng}
-            address={event.Location}
-          />
         </div>
-      )}
+      </div  >
       {showDirections && (
-        <div>
+        <div className="flex items-center justify-center bg-black bg-opacity-75 text-white m-20">
           <EventDirections coordinates={coordinates} />
           <button
-            className="btn btn-primary w-20"
+            className="btn btn-secondary mt-6"
             onClick={() => setShowDirections(false)}
           >
-            Back to event
+            Back to Event
           </button>
         </div>
       )}
+      <div className=" flex w-full justify-center">
+        <GoogleMapInt
+          lat={coordinates.lat}
+          lng={coordinates.lng}
+          address={event.Location}
+          className="w-full h-full"
+        />
+      </div>
     </div>
   );
 }
