@@ -5,7 +5,7 @@ function GoogleMapInt({ lat, lng, address }) {
     const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
     const containerStyle = {
-        width: '300px',
+        width: '1200px',
         height: '150px'
     };
 
