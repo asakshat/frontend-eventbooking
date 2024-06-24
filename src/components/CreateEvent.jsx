@@ -99,9 +99,9 @@ function CreateEvent() {
     formData.append("latitude", coords.lat);
     formData.append("longitude", coords.lng);
 
-<<<<<<< HEAD
     if (file) {
       formData.append("image", file);
+      console.log(file);
       console.log(file);
     }
 
