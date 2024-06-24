@@ -102,6 +102,7 @@ function CreateEvent() {
 <<<<<<< HEAD
     if (file) {
       formData.append("image", file);
+      console.log(file);
     }
 
     try {
