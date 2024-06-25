@@ -115,7 +115,7 @@ function EventDirections({ coordinates }) {
           />
         </label>
         <br />
-        <br />
+        <p>Choose your way of travel: </p>
         <div className="space-x-4">
           <button
             type="submit"
@@ -124,6 +124,7 @@ function EventDirections({ coordinates }) {
           >
             By Car
           </button>
+
           <button
             type="submit"
             className="btn btn-primary"
@@ -135,7 +136,7 @@ function EventDirections({ coordinates }) {
             type="submit"
             className="btn btn-primary"
             onClick={(e) => handleSubmit(e, "TRANSIT")}
-          >
+          > 
             Public Transport
           </button>
         </div>
