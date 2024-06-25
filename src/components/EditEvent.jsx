@@ -177,7 +177,7 @@ function EditEvent() {
 
         <div className="form-control">
           <label className="label">
-            <span className="label-text">Street:</span>
+            <span className="label-text">Street and number:</span>
           </label>
           <input
             type="text"
@@ -185,19 +185,6 @@ function EditEvent() {
             value={address.streetName}
             onChange={handleChange}
             placeholder={locationParts[0] || ""}
-            className="input input-bordered w-full"
-          />
-        </div>
-
-        <div className="form-control">
-          <label className="label">
-            <span className="label-text">Street Number:</span>
-          </label>
-          <input
-            type="number"
-            name="streetNumber"
-            value={address.streetNumber}
-            onChange={handleChange}
             className="input input-bordered w-full"
           />
         </div>
@@ -296,6 +283,10 @@ function EditEvent() {
         <div className="md:col-span-2">
           <button className="btn btn-primary w-full" type="submit">
             Submit
+          </button>
+          <button className="btn btn-primary w-full" type="button"
+          onClick={handleDelete}>
+            Delete
           </button>
         </div>
       </form>
