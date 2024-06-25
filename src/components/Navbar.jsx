@@ -1,5 +1,6 @@
 import { MdOutlineLogin } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
+import logo from "../assets/logo.png";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ export default function Navbar() {
         <Link to="/">
           <img
             className="w-24 h-24 p-1 hover:cursor-pointer"
-            src="./src/assets/logo.png"
+            src={logo}
             alt="Event Booking logo"
           />
         </Link>
