@@ -17,6 +17,7 @@ function EventDirections({ coordinates }) {
   });
 
   const fullAddress = ` ${departPoint.streetName}, ${departPoint.city}, ${departPoint.zipCode}, ${departPoint.country}`;
+
   const [error, setError] = useState(null);
 
   const handleChange = (e) => {
@@ -37,7 +38,13 @@ function EventDirections({ coordinates }) {
         if (data.results.length > 0) {
           const location = data.results[0].geometry.location;
           const origin = { lat: location.lat, lng: location.lng };
-          getDirections(origin, method);
+          try {
+            const directionsService =
+              new window.google.maps.DirectionsService();
+            getDirections(origin, method, directionsService);
+          } catch (error) {
+            console.error("Network error:", error.message);
+          }
         } else {
           setError("No coordinates found for this address.");
         }
@@ -47,8 +54,7 @@ function EventDirections({ coordinates }) {
       });
   };
 
-  const getDirections = (origin, method) => {
-    const directionsService = new window.google.maps.DirectionsService();
+  const getDirections = (origin, method, directionsService) => {
     directionsService.route(
       {
         origin,
@@ -71,11 +77,12 @@ function EventDirections({ coordinates }) {
     calculateDirections(method);
   };
 
-  return (
+
     <div className="flex flex-row items-start space-x-4">
       <form className="event-creator space-y-4 ml-5">
         <label className="block">
           Street: {""}
+
           <input
             type="text"
             name="streetName"
@@ -141,6 +148,7 @@ function EventDirections({ coordinates }) {
           </button>
         </div>
         {error && <p className="text-red-500">{error}</p>}
+
       </form>
       <div className="w-2/3 h-96">
         <LoadScript googleMapsApiKey={apiKey}>
