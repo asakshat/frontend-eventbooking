@@ -78,7 +78,6 @@ function EventDirections({ coordinates }) {
       <form
         className="event-creator"
         data-theme="cyberpunk"
-        onSubmit={(e) => handleSubmit(e, "DRIVING")}
       >
         <label>
           Street:
@@ -86,16 +85,6 @@ function EventDirections({ coordinates }) {
             type="text"
             name="streetName"
             value={departPoint.streetName}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          N°:
-          <input
-            type="number"
-            className="w-11"
-            name="streetNumber"
-            value={departPoint.streetNumber}
             onChange={handleChange}
           />
         </label>
@@ -128,15 +117,18 @@ function EventDirections({ coordinates }) {
           />
         </label>
 
-        <button type="submit" className="btn btn-primary w-20">
+        <button type="submit" className="btn btn-primary w-20"
+        onClick={(e) => handleSubmit(e, "DRIVING")}>
           By Car
         </button>
 
-        <button type="submit" className="btn btn-primary w-20">
+        <button type="submit" className="btn btn-primary w-20"
+        onClick={(e) => handleSubmit(e, "WALKING")}>
           Walking
         </button>
 
-        <button type="submit" className="btn btn-primary w-20">
+        <button type="submit" className="btn btn-primary w-20"
+        onClick={(e) => handleSubmit(e, "TRANSIT")}>
           Public Transport
         </button>
       </form>
