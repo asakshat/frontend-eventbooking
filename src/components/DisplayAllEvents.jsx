@@ -40,7 +40,7 @@ function DisplayAllEvents() {
       <div className="flex flex-col">
         <h1 className="text-8xl font-bold">Events</h1>
         <p className="text-2xl font-bold py-10">
-          Here you can find all our events. Search and book easily with just a
+          Here you can find all events. Search and book easily with just a
           few clicks!
         </p>
       </div>

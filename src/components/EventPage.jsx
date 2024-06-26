@@ -88,7 +88,7 @@ function EventPage() {
             }}
           ></div>
         </div>
-        <div className="max-w-screen-xl mx-auto p-6">
+        <div className="max-w-screen-l mx-auto p-6">
           <div className="bg-white rounded-lg shadow-lg p-6">
             <h1 className="text-3xl font-bold mb-4">
               {event.Title} - {event.Organizer.Username}
@@ -160,8 +160,9 @@ function EventPage() {
         </div>
       </div>
       {showDirections && (
-        <div className=" px-6 m-10 py-8 bg-gray-100">
-          <div className="max-w-screen-xl mx-auto">
+        <div className=" px-6 m-10 py-8 bg-gray-100 rounded-lg">
+        
+          <div className="max-w-screen-l">
             <EventDirections coordinates={coordinates} />
           </div>
         </div>
