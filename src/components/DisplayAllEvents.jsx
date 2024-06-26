@@ -40,8 +40,8 @@ function DisplayAllEvents() {
       <div className="flex flex-col">
         <h1 className="text-8xl font-bold">Events</h1>
         <p className="text-2xl font-bold py-10">
-          Here you can find all events. Search and book easily with just a
-          few clicks!
+          Here you can find all events. Search and book easily with just a few
+          clicks!
         </p>
       </div>
       <div className="flex flex-wrap gap-9">
@@ -82,11 +82,12 @@ function DisplayAllEvents() {
                     {event.Title} - {event.Organizer?.Username}
                   </p>
                   <p>
-                    {formatDate(event.Date)} {event.Time}
+                    Date: {formatDate(event.Date)} {event.Time}
                   </p>
-                  <p className="truncate">{event.Location}</p>
+                  <p className="truncate">Location: {event.Location}</p>
                   <p>
-                    {event.Venue} {event.Price}€
+                    Venue: {event.Venue} <br />
+                    Price: {event.Price}€
                   </p>
                 </div>
                 <div className="flex gap-2 mt-4">
