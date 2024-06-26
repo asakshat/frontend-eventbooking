@@ -1,6 +1,9 @@
 import { MdOutlineLogin } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
+import { useContext } from "react";
 import logo from "../assets/logo.png";
+import DropdownMenu from "./DropdownMenu";
+import { UserContext } from "./UserContext";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -8,6 +11,11 @@ export default function Navbar() {
   const navigateToAuthForm = () => {
     navigate("/auth");
   };
+
+  const { user } = useContext(UserContext);
+  if (user) {
+    console.log(user);
+  }
 
   return (
     <div className="navbar bg-neutral-600 gap-4">
@@ -20,6 +28,7 @@ export default function Navbar() {
           />
         </Link>
       </div>
+      {user && <DropdownMenu/>}
       <div className="flex-none gap-2">
         <div className="form-control">
           <input
