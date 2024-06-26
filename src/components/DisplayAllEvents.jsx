@@ -2,14 +2,14 @@ import { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "./UserContext";
 
-
 function DisplayAllEvents() {
-
   const [events, setEvents] = useState(null);
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
-  console.log(user);
-  console.log(user.user.ID);
+  if (user) {
+    console.log(user);
+    console.log(user.user.ID);
+  }
 
   async function getEventList() {
     try {
@@ -92,12 +92,13 @@ function DisplayAllEvents() {
                   <Link to={`/event/${event.ID}`} state={event}>
                     <button className="btn btn-primary w-20">See Event</button>
                   </Link>
-                  {user.user.ID === event.Organizer.ID && (
+                  {user && user.user.ID === event.Organizer.ID && (
                     <Link to={`/edit-event/${event.ID}`} state={event}>
-                    <button className="btn btn-secondary w-20">
-                      Modify Event
-                    </button>
-                  </Link>)}
+                      <button className="btn btn-secondary w-20">
+                        Modify Event
+                      </button>
+                    </Link>
+                  )}
                 </div>
               </div>
             ))}
