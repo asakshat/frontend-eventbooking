@@ -5,6 +5,7 @@ import { UserContext } from "./UserContext";
 function DisplayAllEvents() {
   const [events, setEvents] = useState(null);
   const navigate = useNavigate();
+
   const { user } = useContext(UserContext);
   if (user) {
     console.log(user);
@@ -99,6 +100,8 @@ function DisplayAllEvents() {
                       </button>
                     </Link>
                   )}
+  </Link>)} */}
+
                 </div>
               </div>
             ))}
