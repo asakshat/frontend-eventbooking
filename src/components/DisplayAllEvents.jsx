@@ -100,8 +100,6 @@ function DisplayAllEvents() {
                       </button>
                     </Link>
                   )}
-  </Link>)} */}
-
                 </div>
               </div>
             ))}
