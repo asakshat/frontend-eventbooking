@@ -14,7 +14,7 @@ function EmailVerification() {
 			if (token) {
 				try {
 					const response = await fetch(
-						'http://localhost:9000/api/verify-email',
+						'https://eventbooking-go-9c6c8d14446d.herokuapp.com/api/verify-email',
 						{
 							method: 'POST',
 							headers: {
