@@ -7,9 +7,9 @@ function DisplayAllEvents() {
 
   const [events, setEvents] = useState(null);
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
-  console.log(user);
-  console.log(user.user.ID);
+  // const { user } = useContext(UserContext);
+  // console.log(user);
+  // console.log(user.user.ID);
 
   async function getEventList() {
     try {
@@ -92,12 +92,12 @@ function DisplayAllEvents() {
                   <Link to={`/event/${event.ID}`} state={event}>
                     <button className="btn btn-primary w-20">See Event</button>
                   </Link>
-                  {user.user.ID === event.Organizer.ID && (
+                  {/* {user.user.ID === event.Organizer.ID && (
                     <Link to={`/edit-event/${event.ID}`} state={event}>
                     <button className="btn btn-secondary w-20">
                       Modify Event
                     </button>
-                  </Link>)}
+                  </Link>)} */}
                 </div>
               </div>
             ))}
