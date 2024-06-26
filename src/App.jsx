@@ -12,6 +12,8 @@ import CreateEvent from "./components/CreateEvent";
 import DisplayAllEvents from "./components/DisplayAllEvents";
 import EditEvent from "./components/EditEvent";
 import { Toaster } from "sonner";
+import Verified from "./components/Verified";
+import UserContext from "./components/UserContext";
 
 function App() {
   return (
@@ -34,6 +36,8 @@ function App() {
           <Route path="/events" element={<DisplayAllEvents />} />
           <Route path="/event/:id" element={<EventPage />} />
           <Route path="/edit-event/:id" element={<EditEvent />} />
+          <Route path="/verified" element={<Verified />} />
+          <Route path="/UserContext" element={<UserContext />} />
         </Routes>
 
         <Footer />

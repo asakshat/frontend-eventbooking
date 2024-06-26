@@ -146,55 +146,6 @@ function EventPage() {
     </div>
   );
 }
-    {/* return (
-        <div className='flex'>
-            {!showDirections && 
-            <div className='flex-row' data-theme='cyberpunk'>
-                <div>
-                <img className='h-72 w-full' src={event.ImageURL} alt="" />
-                </div>
-                <div className='info'>
-                    <p>{event.Title} {event.Organizer.username}</p>
-                    <p>{formatDate(event.Date)} {event.Time}</p>
-                    <p>{event.Location}</p>
-                    <p>{event.Venue} {event.Price}€</p>
-                    <p>{event.Description}</p>
-                    <button className='btn btn-primary w-20'
-                    onClick={()=> setShowBooking(true)}>Book now</button>
-                    
-                    {showBooking && 
-                    <form >
-                        <input type="text" placeholder="First Name" value={firstname} onChange={(e) => setFirstname(e.target.value)} />
-                        <input type="text" placeholder="Last Name" value={lastname} onChange={(e) => setLastname(e.target.value)} />
-                        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                        <button type="submit" onClick={handleBooking} className='btn btn-primary w-20'>Book Now</button>
-                    </form>}
-
-                    <button className='btn btn-primary w-20'
-                     onClick={()=> setShowDirections(true)}>Get Directions</button>
-                    
-                </div>
-                <GoogleMapInt lat={coordinates.lat} lng={coordinates.lng} address={event.Location} />
-            </div> }
-                {showDirections && 
-                <div>
-                    <EventDirections coordinates={coordinates} />
-                    <button className='btn btn-primary w-20'
-                    onClick={()=> setShowDirections(false)}>Back to event</button>
-                </div>}
-        </div>
-      )}
-      <div className=" flex w-full justify-center">
-        <GoogleMapInt
-          lat={coordinates.lat}
-          lng={coordinates.lng}
-          address={event.Location}
-          className="w-full h-full"
-        />
-      </div>
-    </div>
-  );
-} */}
 
 
 export default EventPage;
