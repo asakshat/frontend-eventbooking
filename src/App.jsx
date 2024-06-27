@@ -12,6 +12,7 @@ import DisplayAllEvents from './components/DisplayAllEvents';
 import EditEvent from './components/EditEvent';
 import VerifiedPage from './pages/VerifiedPage';
 import { Toaster } from 'sonner';
+import ForgotPassword from './pages/ForgotPassword';
 
 function App() {
 	return (
@@ -34,7 +35,8 @@ function App() {
 					<Route path="/events" element={<DisplayAllEvents />} />
 					<Route path="/event/:id" element={<EventPage />} />
 					<Route path="/edit-event/:id" element={<EditEvent />} />
-					<Route path="/verify-email" element={<VerifiedPage />} />
+					<Route path="/user/verify-email" element={<VerifiedPage />} />
+					<Route path="/user/forgot-password" element={<ForgotPassword />} />
 				</Routes>
 
 				<Footer />
