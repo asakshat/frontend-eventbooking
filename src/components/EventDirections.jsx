@@ -4,9 +4,18 @@ import {
 	LoadScript,
 	DirectionsRenderer,
 } from '@react-google-maps/api';
+  GoogleMap,
+  useJsApiLoader,
+  DirectionsRenderer,
+} from "@react-google-maps/api";
 
 function EventDirections({ coordinates }) {
 	const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+  const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+
+  const { isLoaded, loadError } = useJsApiLoader({
+    googleMapsApiKey: apiKey,
+  });
 
 	const [directions, setDirections] = useState(null);
 	const [departPoint, setDepartPoint] = useState({
@@ -17,6 +26,7 @@ function EventDirections({ coordinates }) {
 	});
 
 	const fullAddress = ` ${departPoint.streetName}, ${departPoint.city}, ${departPoint.zipCode}, ${departPoint.country}`;
+  const fullAddress = `${departPoint.streetName}, ${departPoint.city}, ${departPoint.zipCode}, ${departPoint.country}`;
 
 	const [error, setError] = useState(null);
 
@@ -76,6 +86,13 @@ function EventDirections({ coordinates }) {
 		e.preventDefault();
 		calculateDirections(method);
 	};
+  const handleSubmit = (e, method) => {
+    e.preventDefault();
+    calculateDirections(method);
+  };
+
+  if (loadError) return <div>Error loading maps</div>;
+  if (!isLoaded) return <div>Loading Maps</div>;
 
 	return (
 		<div className="flex flex-row justify-evenly items-start">
@@ -164,6 +181,47 @@ function EventDirections({ coordinates }) {
 			</div>
 		</div>
 	);
+        <p className="mb-2">Choose your way of travel:</p>
+        <div className="flex gap-4">
+          <button
+            type="submit"
+            className="btn btn-primary"
+            onClick={(e) => handleSubmit(e, "DRIVING")}
+          >
+            By Car
+          </button>
+          <button
+            type="submit"
+            className="btn btn-primary"
+            onClick={(e) => handleSubmit(e, "WALKING")}
+          >
+            Walking
+          </button>
+          <button
+            type="submit"
+            className="btn btn-primary"
+            onClick={(e) => handleSubmit(e, "TRANSIT")}
+          >
+            Public Transport
+          </button>
+        </div>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+      </form>
+      <div className="w-2/3">
+        <GoogleMap
+          zoom={10}
+          mapContainerStyle={{
+            width: "90%",
+            height: "430px",
+            marginLeft: "50px",
+          }}
+          center={coordinates}
+        >
+          {directions && <DirectionsRenderer directions={directions} />}
+        </GoogleMap>
+      </div>
+    </div>
+  );
 }
 
 export default EventDirections;
