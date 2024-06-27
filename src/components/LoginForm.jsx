@@ -6,7 +6,6 @@ import { toast } from "sonner";
 import { UserContext } from "./UserContext";
 
 export default function LoginForm({ switchForm }) {
-  const [responseMessage, setResponseMessage] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const fetchUrl = import.meta.env.VITE_FETCH_URL;
@@ -30,8 +29,6 @@ export default function LoginForm({ switchForm }) {
 
         const data = await response.json();
         if (response.status === 200) {
-          setResponseMessage("Login successful");
-
           // Fetch user data after successful login
           const userResponse = await fetch(`${fetchUrl}/api/logged`, {
             credentials: "include",
@@ -46,7 +43,6 @@ export default function LoginForm({ switchForm }) {
         }
       } catch (error) {
         console.error(error);
-        setResponseMessage("Error logging in. Please try again.");
         reject(error);
       }
     });

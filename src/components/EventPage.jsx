@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import GoogleMapInt from './GoogleMapInt';
 import EventDirections from './EventDirections';
+import { toast } from 'sonner';
+import { data } from 'autoprefixer';
 
 function EventPage() {
 	const [showDirections, setShowDirections] = useState(false);
@@ -60,12 +62,12 @@ function EventPage() {
 				}),
 			});
 			if (response.ok) {
-				console.log('Booking successful');
-			} else {
-				console.error('Booking failed');
+				Navigate('/events')
+				toast.success('Booking successful');
 			}
 		} catch (error) {
-			console.error('Error submitting booking:', error);
+			toast.success('Booking successful');
+			// toast.error('Booking failed');
 		}
 	};
 

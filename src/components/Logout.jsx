@@ -1,10 +1,13 @@
 import React, { useContext } from "react";
 import { UserContext } from "./UserContext";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 export default function Logout() {
   
   const fetchUrl = import.meta.env.VITE_FETCH_URL;
   const { setUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
@@ -18,10 +21,10 @@ export default function Logout() {
       localStorage.removeItem("user");
       setUser(null);
       const data = await response.json();
-      console.log(data);
-      console.log(setUser);
+      navigate("/");
+      toast.success(data.message);
     } catch (error) {
-      console.error(error);
+      toast.error("Error logging out");
     }
   };
 

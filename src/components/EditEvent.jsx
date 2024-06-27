@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import GoogleMapInt from "./GoogleMapInt";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { toast } from "sonner";
 
 function EditEvent() {
     
@@ -11,7 +12,7 @@ function EditEvent() {
     console.log(event);
     const navigate = useNavigate();
 
-    const [responseMessage, setResponseMessage] = useState('');
+    
     const [address, setAddress] = useState({
     streetName: locationParts[0] || '',
     city: locationParts[1] || '',
@@ -90,14 +91,15 @@ function EditEvent() {
                 credentials: 'include'
             });
             const data = await response.json();
-            setResponseMessage('Event successfully edited');
+            
             // console.log(data);
             if (response.ok) {
                 navigate("/events")
+                toast.success(data.message);
             }
         } catch (error) {
             console.error('Error submitting form:', error);
-            setResponseMessage('Error editing event');
+            toast.error(data.error);
         }
     };
 
@@ -109,15 +111,16 @@ function EditEvent() {
                 credentials: 'include'
             });
             const data = await response.json();
-            setResponseMessage('Event successfully deleted');
+            
             // console.log(data);
             if (response.ok) {
                 navigate("/events")
+                toast.success(data.message);
 
             }
         } catch (error) {
             console.error('Error submitting form:', error);
-            setResponseMessage('Error deleting event');
+            toast.error(error.message);
         }
     };
 
