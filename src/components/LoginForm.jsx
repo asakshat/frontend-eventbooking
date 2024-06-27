@@ -114,6 +114,15 @@ export default function LoginForm({ switchForm }) {
 										Dont have an account? Sign Up Now!
 									</a>
 								</label>
+
+								<label className="label">
+									<Link
+										to="/user/reset-password"
+										className="label-text-alt link link-hover"
+									>
+										Forgot Password?
+									</Link>
+								</label>
 							</div>
 							<div className="form-control mt-6">
 								<button className="btn btn-primary">Login</button>

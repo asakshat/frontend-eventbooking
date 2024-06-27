@@ -1,24 +1,29 @@
-import { Link } from 'react-router-dom';
-import { IoIosArrowBack } from 'react-icons/io';
+import { useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-export default function ForgotPassword() {
-	const [email, setEmail] = useState('');
+export default function ResetPassword() {
+	const [searchParams] = useSearchParams();
+	const token = searchParams.get('token');
+	const email = searchParams.get('email');
+	const [newPassword, setNewPassword] = useState('');
 	const [requestSuccessful, setRequestSuccessful] = useState(false);
 
-	const submitEmail = async (e) => {
+	const changePassword = async (e) => {
 		e.preventDefault();
-
 		try {
 			const response = await fetch(
-				`${import.meta.env.VITE_FETCH_URL}/api/forgot-password`,
+				'https://eventbooking-go-9c6c8d14446d.herokuapp.com/api/reset-password',
 				{
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
 					},
-					body: JSON.stringify({ email }),
+					body: JSON.stringify({
+						email: email,
+						token: token,
+						new_password: newPassword,
+					}),
 				}
 			);
 			const data = await response.json();
@@ -27,11 +32,12 @@ export default function ForgotPassword() {
 				toast.success(data.message);
 				setRequestSuccessful(true);
 			} else {
+				console.log(data);
 				toast.error(data.error);
 			}
 		} catch (error) {
-			console.error(error);
-			toast.error('An error occurred. Please try again.');
+			console.log(error);
+			toast.error(error);
 		}
 	};
 
@@ -39,39 +45,28 @@ export default function ForgotPassword() {
 		<div className="hero bg-base-200 min-h-screen">
 			<div className="hero-content flex-col lg:flex-row-reverse">
 				<div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-					<Link
-						to="/"
-						className="flex bg-base-200 items-center text-primary p-4"
-					>
-						<IoIosArrowBack className="mr-1" />
-						Back to home
-					</Link>
 					{requestSuccessful ? (
 						<div className="card-body">
-							<p className="text-green-500">
-								Request accepted, please check your email.
-							</p>
+							<p className="text-green-500">Password changed successfully.</p>
 						</div>
 					) : (
 						<form className="card-body">
 							<div className="form-control">
 								<label className="label">
-									<span className="label-text">
-										Type the email for password reset!
-									</span>
+									<span className="label-text">New Password</span>
 								</label>
 								<input
-									type="email"
-									placeholder="Enter email address"
+									type="password"
+									placeholder="Enter your new password"
 									className="input input-bordered"
-									onChange={(e) => setEmail(e.target.value)}
-									value={email}
+									onChange={(e) => setNewPassword(e.target.value)}
+									value={newPassword}
 									required
 								/>
 							</div>
 							<div className="form-control mt-6">
-								<button className="btn btn-primary" onClick={submitEmail}>
-									Send Reset Request
+								<button className="btn btn-primary" onClick={changePassword}>
+									Change Password
 								</button>
 							</div>
 						</form>

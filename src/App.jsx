@@ -12,6 +12,7 @@ import DisplayAllEvents from './components/DisplayAllEvents';
 import EditEvent from './components/EditEvent';
 import VerifiedPage from './pages/VerifiedPage';
 import { Toaster } from 'sonner';
+import ResetPassword from './pages/ResetPassword';
 import ForgotPassword from './pages/ForgotPassword';
 
 function App() {
@@ -36,7 +37,8 @@ function App() {
 					<Route path="/event/:id" element={<EventPage />} />
 					<Route path="/edit-event/:id" element={<EditEvent />} />
 					<Route path="/user/verify-email" element={<VerifiedPage />} />
-					<Route path="/user/forgot-password" element={<ForgotPassword />} />
+					<Route path="/user/forgot-password" element={<ResetPassword />} />
+					<Route path="/user/reset-password" element={<ForgotPassword />} />
 				</Routes>
 
 				<Footer />
