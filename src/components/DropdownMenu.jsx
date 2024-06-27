@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import Logout from './Logout';
 
 function DropdownMenu() {
 	const [isOpen, setIsOpen] = useState(false);
@@ -44,6 +45,7 @@ function DropdownMenu() {
 						</Link>
 						<li>See your events</li>
 						<li>Manage account</li>
+						<Logout />
 					</ul>
 				</div>
 			)}
