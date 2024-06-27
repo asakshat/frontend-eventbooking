@@ -5,12 +5,10 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 
 export default function SignUpForm({ switchForm }) {
-	const [responseMessage, setResponseMessage] = useState('');
 	const [username, setUsername] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const fetchUrl = import.meta.env.VITE_FETCH_URL;
-	const navigate = useNavigate();
 
 	const handleSubmit = async () => {
 		return new Promise(async (resolve, reject) => {
@@ -28,7 +26,6 @@ export default function SignUpForm({ switchForm }) {
 				});
 				const data = await response.json();
 				console.log(data);
-				setResponseMessage('Sign up successful');
 				if (response.status === 200) {
 					resolve(data);
 					switchForm();
@@ -38,7 +35,6 @@ export default function SignUpForm({ switchForm }) {
 			} catch (error) {
 				console.error(error);
 				reject(error);
-				setResponseMessage('Error signing up. Please try again.');
 			}
 		});
 	};
