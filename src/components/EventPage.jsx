@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import GoogleMapInt from './GoogleMapInt';
 import EventDirections from './EventDirections';
 
 function EventPage() {
@@ -108,10 +109,12 @@ function EventPage() {
 							<strong>Price: </strong>
 							{event.Price}€
 						</p>
-						<p className="text-lg mb-4">
-							<strong>Description: </strong>
-							{event.Description}
-						</p>
+						<div className="text-lg mb-4">
+							<div>
+								<strong>Description: </strong>
+								<div dangerouslySetInnerHTML={{ __html: event.Description }} />
+							</div>
+						</div>
 						<div className="flex gap-4">
 							<button
 								className="btn btn-primary w-20"
