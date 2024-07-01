@@ -1,11 +1,9 @@
-
 import { useContext, useState, useEffect } from 'react';
 import { MdOutlineLogin } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import DropdownMenu from './DropdownMenu';
 import { UserContext } from './UserContext';
-import { data } from 'autoprefixer';
 
 export default function Navbar() {
 	const navigate = useNavigate();
@@ -13,39 +11,43 @@ export default function Navbar() {
 	const [searchTerm, setSearchTerm] = useState('');
 	const [suggestions, setSuggestions] = useState([]);
 	const [allEvents, setAllEvents] = useState([]);
+	const [isOpen, setIsOpen] = useState(false);
+
+	const toggleDropdown = () => {
+		setIsOpen(!isOpen);
+	};
 
 	const navigateToAuthForm = () => {
 		navigate('/auth');
 	};
 
+	useEffect(() => {
+		const fetchURL = import.meta.env.VITE_FETCH_URL;
+		fetch(`${fetchURL}/api/event`)
+			.then((response) => response.json())
+			.then((data) => setAllEvents(data.events || []))
+			.catch((error) => console.error('Failed to retrieve data:', error));
+	}, []);
 
-  useEffect(() => {
-    const fetchURL = import.meta.env.VITE_FETCH_URL;
-    fetch(`${fetchURL}/api/event`)
-      .then((response) => response.json())
-      .then((data) => setAllEvents(data.events || []))
-      .catch((error) => console.error("Failed to retrieve data:", error));
-  }, []);
+	useEffect(() => {
+		if (searchTerm) {
+			const filteredEvents = allEvents.filter((event) =>
+				event.Title.toLowerCase().includes(searchTerm.toLowerCase())
+			);
+			setSuggestions(filteredEvents);
+		} else {
+			setSuggestions([]);
+		}
+	}, [searchTerm, allEvents]);
 
-  useEffect(() => {
-    if (searchTerm) {
-      const filteredEvents = allEvents.filter((event) =>
-        event.Title.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setSuggestions(filteredEvents);
-    } else {
-      setSuggestions([]);
-    }
-  }, [searchTerm, allEvents]);
-  
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-  const handleSuggestionClick = (event) => {
-    navigate(`/event/${event.ID}`, { state: event });
-    setSearchTerm("");
-    setSuggestions([]);
-  };
+	const handleSearchChange = (event) => {
+		setSearchTerm(event.target.value);
+	};
+	const handleSuggestionClick = (event) => {
+		navigate(`/event/${event.ID}`, { state: event });
+		setSearchTerm('');
+		setSuggestions([]);
+	};
 
 	const userTrunc =
 		user && user.user && user.user.Email
@@ -88,12 +90,21 @@ export default function Navbar() {
 					)}
 				</div>
 				{userTrunc && (
-					<div className="avatar placeholder">
+					<div
+						className="avatar placeholder relative"
+						onClick={() => toggleDropdown()}
+						role="button"
+						tabIndex="0"
+					>
 						<div className="bg-neutral text-neutral-content w-14 rounded-full">
 							<span className="text-xl">{userTrunc}</span>
 						</div>
+						<div className=" overflow-scroll ">
+							{isOpen && <DropdownMenu isOpen={true} toggle={true} />}
+						</div>
 					</div>
 				)}
+
 				<label className="swap swap-rotate">
 					<input type="checkbox" className="theme-controller" value="night" />
 					<svg
@@ -124,6 +135,4 @@ export default function Navbar() {
 			</div>
 		</div>
 	);
-
 }
-
