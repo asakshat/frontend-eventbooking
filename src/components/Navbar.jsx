@@ -61,7 +61,7 @@ export default function Navbar() {
 					/>
 				</Link>
 			</div>
-			{user && <DropdownMenu />}
+
 			<div className="flex-none gap-2 relative">
 				<div className="form-control">
 					<input
@@ -87,7 +87,10 @@ export default function Navbar() {
 				</div>
 				{userTrunc && (
 					<div className="avatar placeholder">
-						<div className="bg-neutral text-neutral-content w-14 rounded-full">
+						<div
+							className="bg-neutral text-neutral-content w-14 rounded-full"
+							onClick={user && <DropdownMenu />}
+						>
 							<span className="text-xl">{userTrunc}</span>
 						</div>
 					</div>
