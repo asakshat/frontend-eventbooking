@@ -21,6 +21,7 @@ export default function Logout() {
       localStorage.removeItem("user");
       setUser(null);
       const data = await response.json();
+      console.log(data);
       navigate("/");
       toast.success(data.message);
     } catch (error) {
