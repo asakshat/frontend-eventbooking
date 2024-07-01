@@ -1,24 +1,52 @@
 import { MdOutlineLogin } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import logo from "../assets/logo.png";
 import DropdownMenu from "./DropdownMenu";
 import { UserContext } from "./UserContext";
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const { user } = useContext(UserContext);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [allEvents, setAllEvents] = useState([]);
 
   const navigateToAuthForm = () => {
     navigate("/auth");
   };
 
-  const { user } = useContext(UserContext);
-  if (user) {
-    console.log(user);
-  }
+  useEffect(() => {
+    const fetchURL = import.meta.env.VITE_FETCH_URL;
+    fetch(`${fetchURL}/api/event`)
+      .then(response => response.json())
+      .then(data => setAllEvents(data.events || []))
+      .catch(error => console.error("Failed to retrieve data:", error));
+  }, []);
+
+  useEffect(() => {
+    if (searchTerm) {
+      const filteredEvents = allEvents.filter(event =>
+        event.Title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setSuggestions(filteredEvents);
+    } else {
+      setSuggestions([]);
+    }
+  }, [searchTerm, allEvents]);
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleSuggestionClick = (eventId) => {
+    navigate(`/event/${eventId}`);
+    setSearchTerm("");
+    setSuggestions([]);
+  };
 
   return (
-    <div className="navbar bg-neutral-600 gap-4">
+    <div className="navbar bg-neutral-600 gap-4 relative z-50">
       <div className="flex-1">
         <Link to="/">
           <img
@@ -28,14 +56,29 @@ export default function Navbar() {
           />
         </Link>
       </div>
-      {user && <DropdownMenu/>}
-      <div className="flex-none gap-2">
+      {user && <DropdownMenu />}
+      <div className="flex-none gap-2 relative">
         <div className="form-control">
           <input
             type="text"
             placeholder="Search for events"
             className="input input-bordered w-24 md:w-auto"
+            value={searchTerm}
+            onChange={handleSearchChange}
           />
+          {suggestions.length > 0 && (
+            <div className="absolute top-full mt-1 w-full bg-white border rounded shadow-lg z-50">
+              {suggestions.map(suggestion => (
+                <div
+                  key={suggestion.ID}
+                  className="p-2 cursor-pointer hover:bg-gray-200"
+                  onClick={() => handleSuggestionClick(suggestion.ID)}
+                >
+                  {suggestion.Title}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
       <div className="dropdown dropdown-end">
@@ -64,7 +107,7 @@ export default function Navbar() {
         </div>
         <div
           tabIndex={0}
-          className="mt-3 z-[50] card card-compact dropdown-content w-52 bg-base-100 shadow"
+          className="mt-3 z-[60] card card-compact dropdown-content w-52 bg-base-100 shadow"
         >
           <div className="card-body">
             <span className="font-bold text-lg">8 Items</span>
