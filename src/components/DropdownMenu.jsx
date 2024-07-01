@@ -28,7 +28,7 @@ function DropdownMenu() {
         className="btn btn-accent bg-secondary"
         onClick={() => setIsOpen(!isOpen)}
       >
-        Manage account/events
+        Manage your events
       </button>
       {isOpen && (
         <div
@@ -46,7 +46,6 @@ function DropdownMenu() {
             <Link to="/events-by-organizer">
               <li>See your events</li>
             </Link>
-            <li>Manage account</li>
             <Logout />
           </ul>
         </div>
