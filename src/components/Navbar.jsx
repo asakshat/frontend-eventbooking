@@ -39,7 +39,7 @@ export default function Navbar() {
   };
 
   const handleSuggestionClick = (event) => {
-    navigate(`/event/${event.ID}`, { state: event }); // Ensure event data is passed correctly
+    navigate(`/event/${event.ID}`, { state: event });
     setSearchTerm("");
     setSuggestions([]);
   };
