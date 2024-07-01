@@ -36,27 +36,27 @@ function DisplayAllEvents() {
   };
 
   return (
-    <div className="min-h-screen p-10">
-      <div className="flex flex-col">
-        <h1 className="text-8xl font-bold">Events</h1>
-        <p className="text-2xl font-bold py-10">
-          Here you can find all events. Search and book easily with just a few
-          clicks!
+    <div className="min-h-screen">
+      <div className="w-full bg-primary">
+        <h1 className="ml-20 text-8xl font-bold text-left py-10 text-text">Events</h1>
+      </div>
+      <div className="w-full bg-base-100">
+        <p className=" ml-20 text-2xl font-bold text-left py-10 text-text">
+          Here you can find all events. Search and book easily with just a few clicks!
         </p>
       </div>
-      <div className="flex flex-wrap gap-9">
+      <div className="flex flex-wrap gap-9 m-16 -mt-1">
         {!events
           ? Array.from({ length: 6 }).map((_, index) => (
               <div
                 key={index}
-                className="w-64 h-96 flex flex-col justify-between border p-4"
+                className="w-64 h-96 flex flex-col justify-between border p-4 bg-card text-text"
               >
                 <div className="skeleton h-32 w-full mb-4"></div>
                 <div className="flex-grow">
                   <div className="skeleton h-4 w-28 mb-2"></div>
                   <div className="skeleton h-4 w-full mb-2"></div>
                   <div className="skeleton h-4 w-full mb-2"></div>
-
                   <div className="skeleton h-4 w-full mb-2"></div>
                 </div>
                 <div className="flex gap-2 mt-4">
@@ -68,7 +68,7 @@ function DisplayAllEvents() {
           : events.events.map((event) => (
               <div
                 key={event.ID}
-                className="w-64 bg-white rounded-lg shadow-lg p-6 h-96 flex flex-col justify-between border"
+                className="w-64 bg-white rounded-lg shadow-lg p-6 h-96 flex flex-col justify-between border text-text"
               >
                 <div className="image h-32 mb-4">
                   <img

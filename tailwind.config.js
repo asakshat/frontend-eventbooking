@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 import daisyui from "daisyui";
+
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
@@ -19,6 +20,9 @@ export default {
           success: "#4caf50",
           warning: "#fb8c00",
           error: "#f44336",
+          card: "#FFFFFF",
+          "card-dark": "#e0e0e0",
+          text: "#000000",
         },
         night: {
           primary: "#5989ff",
@@ -30,6 +34,9 @@ export default {
           success: "#22c55e",
           warning: "#eab308",
           error: "#ef4444",
+          card: "#1f1f1f",
+          "card-dark": "#2c2c2c",
+          text: "#FFFFFF",
         },
       },
     ],
