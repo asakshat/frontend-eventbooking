@@ -14,6 +14,7 @@ import VerifiedPage from './pages/VerifiedPage';
 import { Toaster } from 'sonner';
 import ResetPassword from './pages/ResetPassword';
 import ForgotPassword from './pages/ForgotPassword';
+import EventsByOrganizer from './components/EventsByOrganizer';
 
 function App() {
 	return (
@@ -34,6 +35,7 @@ function App() {
 					<Route path="/join" element={<JoinUs />} />
 					<Route path="/create-event" element={<CreateEvent />} />
 					<Route path="/events" element={<DisplayAllEvents />} />
+					<Route path="/events-by-organizer" element={<EventsByOrganizer />} />
 					<Route path="/event/:id" element={<EventPage />} />
 					<Route path="/edit-event/:id" element={<EditEvent />} />
 					<Route path="/user/verify-email" element={<VerifiedPage />} />
