@@ -1,9 +1,11 @@
+
 import { useContext, useState, useEffect } from 'react';
 import { MdOutlineLogin } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import DropdownMenu from './DropdownMenu';
 import { UserContext } from './UserContext';
+import { data } from 'autoprefixer';
 
 export default function Navbar() {
 	const navigate = useNavigate();
@@ -16,34 +18,34 @@ export default function Navbar() {
 		navigate('/auth');
 	};
 
-	useEffect(() => {
-		const fetchURL = import.meta.env.VITE_FETCH_URL;
-		fetch(`${fetchURL}/api/event`)
-			.then((response) => response.json())
-			.then((data) => setAllEvents(data.events || []))
-			.catch((error) => console.error('Failed to retrieve data:', error));
-	}, []);
 
-	useEffect(() => {
-		if (searchTerm) {
-			const filteredEvents = allEvents.filter((event) =>
-				event.Title.toLowerCase().includes(searchTerm.toLowerCase())
-			);
-			setSuggestions(filteredEvents);
-		} else {
-			setSuggestions([]);
-		}
-	}, [searchTerm, allEvents]);
+  useEffect(() => {
+    const fetchURL = import.meta.env.VITE_FETCH_URL;
+    fetch(`${fetchURL}/api/event`)
+      .then((response) => response.json())
+      .then((data) => setAllEvents(data.events || []))
+      .catch((error) => console.error("Failed to retrieve data:", error));
+  }, []);
 
-	const handleSearchChange = (event) => {
-		setSearchTerm(event.target.value);
-	};
-
-	const handleSuggestionClick = (eventId) => {
-		navigate(`/event/${eventId}`);
-		setSearchTerm('');
-		setSuggestions([]);
-	};
+  useEffect(() => {
+    if (searchTerm) {
+      const filteredEvents = allEvents.filter((event) =>
+        event.Title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setSuggestions(filteredEvents);
+    } else {
+      setSuggestions([]);
+    }
+  }, [searchTerm, allEvents]);
+  
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+  const handleSuggestionClick = (event) => {
+    navigate(`/event/${event.ID}`, { state: event });
+    setSearchTerm("");
+    setSuggestions([]);
+  };
 
 	const userTrunc =
 		user && user.user && user.user.Email
@@ -77,7 +79,7 @@ export default function Navbar() {
 								<div
 									key={suggestion.ID}
 									className="p-2 cursor-pointer hover:bg-gray-200"
-									onClick={() => handleSuggestionClick(suggestion.ID)}
+									onClick={() => handleSuggestionClick(suggestion)}
 								>
 									{suggestion.Title}
 								</div>
@@ -125,4 +127,6 @@ export default function Navbar() {
 			</div>
 		</div>
 	);
+
 }
+
