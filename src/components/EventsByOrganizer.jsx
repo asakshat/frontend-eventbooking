@@ -15,13 +15,16 @@ function EventsByOrganizer() {
   async function getEventList() {
     try {
       const fetchURL = import.meta.env.VITE_FETCH_URL;
-      const response = await fetch(`${fetchURL}/api/event/events_by_organizer`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      });
+      const response = await fetch(
+        `${fetchURL}/api/event/events_by_organizer`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
       const data = await response.json();
 
       if (!response.ok) {

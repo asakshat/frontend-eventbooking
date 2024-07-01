@@ -2,35 +2,12 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Logout from "./Logout";
 
-function DropdownMenu() {
-  const [isOpen, setIsOpen] = useState(false);
+function DropdownMenu({ isOpen, toggle }) {
   const toggleContainer = useRef(null);
 
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (
-        toggleContainer.current &&
-        !toggleContainer.current.contains(event.target)
-      ) {
-        setIsOpen(false);
-      }
-    }
-
-    window.addEventListener("click", handleClickOutside);
-    return () => {
-      window.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
-
   return (
-    <div ref={toggleContainer}>
-      <button
-        className="btn btn-accent bg-secondary"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        Manage your events
-      </button>
-      {isOpen && (
+    isOpen && (
+      <div ref={toggleContainer}>
         <div
           style={{
             backgroundColor: "black",
@@ -49,8 +26,8 @@ function DropdownMenu() {
             <Logout />
           </ul>
         </div>
-      )}
-    </div>
+      </div>
+    )
   );
 }
 
