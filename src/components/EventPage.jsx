@@ -93,7 +93,7 @@ function EventPage() {
 				<div className="max-w-screen-l mx-auto p-6">
 					<div className="bg-white rounded-lg shadow-lg p-6">
 						<h1 className="text-3xl font-bold mb-4">
-							{event.Title} - {event.Organizer.Username}
+							{event.Title} - {event.Organizer?.Username}
 						</h1>
 						<p className="text-lg mb-2">
 							<strong>Date & Time: </strong>
