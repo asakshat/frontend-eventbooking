@@ -1,9 +1,8 @@
-import { MdOutlineLogin } from "react-icons/md";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useContext, useState, useEffect } from "react";
-import logo from "../assets/logo.png";
-import DropdownMenu from "./DropdownMenu";
 import { UserContext } from "./UserContext";
+import { MdOutlineLogin } from "react-icons/md";
+import logo from "../assets/logo.png";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -19,14 +18,14 @@ export default function Navbar() {
   useEffect(() => {
     const fetchURL = import.meta.env.VITE_FETCH_URL;
     fetch(`${fetchURL}/api/event`)
-      .then(response => response.json())
-      .then(data => setAllEvents(data.events || []))
-      .catch(error => console.error("Failed to retrieve data:", error));
+      .then((response) => response.json())
+      .then((data) => setAllEvents(data.events || []))
+      .catch((error) => console.error("Failed to retrieve data:", error));
   }, []);
 
   useEffect(() => {
     if (searchTerm) {
-      const filteredEvents = allEvents.filter(event =>
+      const filteredEvents = allEvents.filter((event) =>
         event.Title.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setSuggestions(filteredEvents);
@@ -39,8 +38,8 @@ export default function Navbar() {
     setSearchTerm(event.target.value);
   };
 
-  const handleSuggestionClick = (eventId) => {
-    navigate(`/event/${eventId}`);
+  const handleSuggestionClick = (event) => {
+    navigate(`/event/${event.ID}`, { state: event }); // Ensure event data is passed correctly
     setSearchTerm("");
     setSuggestions([]);
   };
@@ -68,11 +67,11 @@ export default function Navbar() {
           />
           {suggestions.length > 0 && (
             <div className="absolute top-full mt-1 w-full bg-white border rounded shadow-lg z-50">
-              {suggestions.map(suggestion => (
+              {suggestions.map((suggestion) => (
                 <div
                   key={suggestion.ID}
                   className="p-2 cursor-pointer hover:bg-gray-200"
-                  onClick={() => handleSuggestionClick(suggestion.ID)}
+                  onClick={() => handleSuggestionClick(suggestion)}
                 >
                   {suggestion.Title}
                 </div>
