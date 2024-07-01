@@ -68,7 +68,7 @@ export default function Navbar() {
           />
           {suggestions.length > 0 && (
             <div className="absolute top-full mt-1 w-full bg-white border rounded shadow-lg z-50">
-              {suggestions.map(suggestion => (
+              {suggestions.map((suggestion) => (
                 <div
                   key={suggestion.ID}
                   className="p-2 cursor-pointer hover:bg-gray-200"
@@ -136,12 +136,14 @@ export default function Navbar() {
         </svg>
       </label>
       <div>
-        <button
-          onClick={navigateToAuthForm}
-          className="btn btn-primary btn-circle"
-        >
-          <MdOutlineLogin className="w-5 h-5 text-black dark:text-white" />
-        </button>
+        {!user && (
+          <button
+            onClick={navigateToAuthForm}
+            className="btn btn-primary btn-circle"
+          >
+            <MdOutlineLogin className="w-5 h-5 text-black dark:text-white" />
+          </button>
+        )}
       </div>
     </div>
   );
