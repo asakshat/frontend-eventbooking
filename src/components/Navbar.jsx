@@ -1,29 +1,52 @@
 import { MdOutlineLogin } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import logo from '../assets/logo.png';
 import DropdownMenu from './DropdownMenu';
 import { UserContext } from './UserContext';
 
 export default function Navbar() {
 	const navigate = useNavigate();
+	const { user } = useContext(UserContext);
+	const [searchTerm, setSearchTerm] = useState('');
+	const [suggestions, setSuggestions] = useState([]);
+	const [allEvents, setAllEvents] = useState([]);
 
 	const navigateToAuthForm = () => {
 		navigate('/auth');
 	};
 
-	const { user } = useContext(UserContext);
-	if (user) {
-		console.log(user);
-	}
+	useEffect(() => {
+		const fetchURL = import.meta.env.VITE_FETCH_URL;
+		fetch(`${fetchURL}/api/event`)
+			.then((response) => response.json())
+			.then((data) => setAllEvents(data.events || []))
+			.catch((error) => console.error('Failed to retrieve data:', error));
+	}, []);
 
-	const userTrunc =
-		user && user.user && user.user.Email
-			? user.user.Email.split('@')[0].substring(0, 1).toUpperCase()
-			: '';
+	useEffect(() => {
+		if (searchTerm) {
+			const filteredEvents = allEvents.filter((event) =>
+				event.Title.toLowerCase().includes(searchTerm.toLowerCase())
+			);
+			setSuggestions(filteredEvents);
+		} else {
+			setSuggestions([]);
+		}
+	}, [searchTerm, allEvents]);
+
+	const handleSearchChange = (event) => {
+		setSearchTerm(event.target.value);
+	};
+
+	const handleSuggestionClick = (eventId) => {
+		navigate(`/event/${eventId}`);
+		setSearchTerm('');
+		setSuggestions([]);
+	};
 
 	return (
-		<div className="navbar bg-neutral-600 gap-4">
+		<div className="navbar bg-neutral-600 gap-4 relative z-50">
 			<div className="flex-1">
 				<Link to="/">
 					<img
@@ -34,16 +57,67 @@ export default function Navbar() {
 				</Link>
 			</div>
 			{user && <DropdownMenu />}
-			<div className="flex-none gap-2">
+			<div className="flex-none gap-2 relative">
 				<div className="form-control">
 					<input
 						type="text"
 						placeholder="Search for events"
 						className="input input-bordered w-24 md:w-auto"
+						value={searchTerm}
+						onChange={handleSearchChange}
 					/>
+					{suggestions.length > 0 && (
+						<div className="absolute top-full mt-1 w-full bg-white border rounded shadow-lg z-50">
+							{suggestions.map((suggestion) => (
+								<div
+									key={suggestion.ID}
+									className="p-2 cursor-pointer hover:bg-gray-200"
+									onClick={() => handleSuggestionClick(suggestion.ID)}
+								>
+									{suggestion.Title}
+								</div>
+							))}
+						</div>
+					)}
 				</div>
 			</div>
-
+			<div className="dropdown dropdown-end">
+				<div
+					tabIndex={0}
+					role="button"
+					className="btn btn-accent btn-circle bg-secondary"
+				>
+					<div className="indicator">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							className="h-5 w-5 text-black dark:text-white"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								strokeWidth="2"
+								d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+							/>
+						</svg>
+						<span className="badge badge-sm indicator-item">8</span>
+					</div>
+				</div>
+				<div
+					tabIndex={0}
+					className="mt-3 z-[60] card card-compact dropdown-content w-52 bg-base-100 shadow"
+				>
+					<div className="card-body">
+						<span className="font-bold text-lg">8 Items</span>
+						<span className="text-info">Subtotal: $999</span>
+						<div className="card-actions">
+							<button className="btn btn-primary btn-block">View cart</button>
+						</div>
+					</div>
+				</div>
+			</div>
 			<label className="swap swap-rotate">
 				<input type="checkbox" className="theme-controller" value="night" />
 				<svg
@@ -61,21 +135,15 @@ export default function Navbar() {
 					<path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z" />
 				</svg>
 			</label>
-			{userTrunc && (
-				<div className="avatar placeholder">
-					<div className="bg-neutral text-neutral-content w-14 rounded-full">
-						<span className="text-xl">{userTrunc}</span>
-					</div>
-				</div>
-			)}
-
 			<div>
-				<button
-					onClick={navigateToAuthForm}
-					className="btn btn-primary btn-circle"
-				>
-					<MdOutlineLogin className="w-5 h-5 text-black dark:text-white" />
-				</button>
+				{!user && (
+					<button
+						onClick={navigateToAuthForm}
+						className="btn btn-primary btn-circle"
+					>
+						<MdOutlineLogin className="w-5 h-5 text-black dark:text-white" />
+					</button>
+				)}
 			</div>
 		</div>
 	);
