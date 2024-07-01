@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import DropdownMenu from './DropdownMenu';
 import { UserContext } from './UserContext';
+import { data } from 'autoprefixer';
 
 export default function Navbar() {
 	const navigate = useNavigate();
@@ -36,12 +37,10 @@ export default function Navbar() {
       setSuggestions([]);
     }
   }, [searchTerm, allEvents]);
-
-
-	const handleSearchChange = (event) => {
-		setSearchTerm(event.target.value);
-	};
-
+  
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
   const handleSuggestionClick = (event) => {
     navigate(`/event/${event.ID}`, { state: event });
     setSearchTerm("");
@@ -80,7 +79,7 @@ export default function Navbar() {
 								<div
 									key={suggestion.ID}
 									className="p-2 cursor-pointer hover:bg-gray-200"
-									onClick={() => handleSuggestionClick(suggestion.ID)}
+									onClick={() => handleSuggestionClick(suggestion)}
 								>
 									{suggestion.Title}
 								</div>
@@ -127,3 +126,4 @@ export default function Navbar() {
 	);
 
 }
+
