@@ -51,7 +51,7 @@ function EventsByOrganizer() {
   return (
     <div className="min-h-screen p-10">
       <div className="flex flex-col">
-        <h1 className="text-8xl font-bold">Events</h1>
+        <h1 className="text-8xl font-bold">{user.user.Username}'s Events</h1>
         <p className="text-2xl font-bold py-10">
           Here you can find all events. Search and book easily with just a few
           clicks!
