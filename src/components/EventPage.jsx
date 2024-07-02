@@ -76,102 +76,110 @@ function EventPage() {
 	}, []);
 
 	return (
-		<div className="flex flex-col min-h-screen">
-			<div className="flex-1 overflow-hidden">
-				<div className="relative h-80">
-					<div
-						className="absolute top-0 right-0 h-full w-full bg-cover bg-no-repeat"
-						style={{
-							backgroundImage: `url(${event.ImageURL})`,
-							objectFit: 'contain',
-							backgroundPosition: 'center',
-							backgroundSize: 'contain',
-							marginTop: '12px',
-						}}
-					></div>
-				</div>
-				<div className="max-w-screen-l mx-auto p-6">
-					<div className="bg-white rounded-lg shadow-lg p-6">
-						<h1 className="text-3xl font-bold mb-4">
-							{event.Title} - {event.Organizer?.Username}
-						</h1>
-						<p className="text-lg mb-2">
-							<strong>Date & Time: </strong>
-							{formatDate(event.Date)} at {event.Time}
-						</p>
-						<p className="text-lg mb-2">
-							<strong>Location: </strong>
-							{event.Location}
-						</p>
-						<p className="text-lg mb-2">
-							<strong>Venue: </strong>
-							{event.Venue}
-						</p>
-						<p className="text-lg mb-2">
-							<strong>Price: </strong>
-							{event.Price}€
-						</p>
-						<div className="text-lg mb-4">
-							<div>
-								<strong>Description: </strong>
-								<div dangerouslySetInnerHTML={{ __html: event.Description }} />
-							</div>
-						</div>
-						<div className="flex gap-4">
-							<button
-								className="btn btn-primary w-20"
-								onClick={() => setShowBooking(true)}
-							>
-								Book now
-							</button>
-							{showBooking && (
-								<form>
-									<input
-										type="text"
-										placeholder="First Name"
-										value={firstname}
-										onChange={(e) => setFirstname(e.target.value)}
-									/>
-									<input
-										type="text"
-										placeholder="Last Name"
-										value={lastname}
-										onChange={(e) => setLastname(e.target.value)}
-									/>
-									<input
-										type="email"
-										placeholder="Email"
-										value={email}
-										onChange={(e) => setEmail(e.target.value)}
-									/>
-									<button
-										type="submit"
-										onClick={handleBooking}
-										className="btn btn-primary w-20"
-									>
-										Book Now
-									</button>
-								</form>
-							)}
-							<button
-								className="btn btn-secondary w-32"
-								onClick={() => setShowDirections(true)}
-							>
-								Get Directions
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-			{showDirections && (
-				<div className=" px-6 m-10 py-8 bg-gray-100 rounded-lg">
-					<div className="max-w-screen-l">
-						<EventDirections coordinates={coordinates} />
-					</div>
-				</div>
-			)}
-		</div>
-	);
+    <div className="flex flex-col min-h-screen">
+      <div className="flex-1 overflow-hidden">
+        <div className="relative h-80">
+          <div
+            className="absolute top-0 right-0 h-full w-full bg-cover bg-no-repeat"
+            style={{
+              backgroundImage: `url(${event.ImageURL})`,
+              objectFit: "contain",
+              backgroundPosition: "center",
+              backgroundSize: "contain",
+              marginTop: "12px",
+            }}
+          ></div>
+        </div>
+        <div className="max-w-screen-l mx-auto p-6">
+          <div className="bg-white rounded-lg shadow-lg p-6">
+            <h1 className="text-3xl font-bold mb-4">
+              {event.Title} - {event.Organizer?.Username}
+            </h1>
+            <p className="text-lg mb-2">
+              <strong>Date & Time: </strong>
+              {formatDate(event.Date)} at {event.Time}
+            </p>
+            <p className="text-lg mb-2">
+              <strong>Location: </strong>
+              {event.Location}
+            </p>
+            <p className="text-lg mb-2">
+              <strong>Venue: </strong>
+              {event.Venue}
+            </p>
+            <p className="text-lg mb-2">
+              <strong>Price: </strong>
+              {event.Price}€
+            </p>
+            <div className="text-lg mb-4">
+              <div>
+                <strong>Description: </strong>
+                <div dangerouslySetInnerHTML={{ __html: event.Description }} />
+              </div>
+            </div>
+            <div className="flex gap-4 flex-col">
+              <div className="flex gap-4">
+                <button
+                  className="btn btn-primary w-20"
+                  onClick={() => setShowBooking(true)}
+                >
+                  Book now
+                </button>
+                <button
+                  className="btn btn-secondary w-32"
+                  onClick={() => setShowDirections(true)}
+                >
+                  Get Directions
+                </button>
+              </div>
+              {showBooking && (
+                <div>
+                  <form className="flex gap-4">
+                    <input
+                      className="input input-bordered"
+                      type="text"
+                      placeholder="First Name"
+                      value={firstname}
+                      onChange={(e) => setFirstname(e.target.value)}
+                    />
+                    <input
+                      className="input input-bordered"
+                      type="text"
+                      placeholder="Last Name"
+                      value={lastname}
+                      onChange={(e) => setLastname(e.target.value)}
+                    />
+                    <input
+                      className="input input-bordered"
+
+                      type="email"
+                      placeholder="Email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <button
+                      type="submit"
+                      onClick={handleBooking}
+                      className="btn btn-primary w-20"
+                    >
+                      Submit
+                    </button>
+                  </form>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+      {showDirections && (
+        <div className=" px-6 m-10 py-8 bg-gray-100 rounded-lg">
+          <div className="max-w-screen-l">
+            <EventDirections coordinates={coordinates} />
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default EventPage;
