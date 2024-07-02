@@ -17,7 +17,6 @@ function EditEvent() {
 		zipCode: locationParts[2] || '',
 		country: locationParts[3] || '',
 	});
-	console.log('hello');
 	const fullAddress = ` ${address.streetName}, ${address.city}, ${address.zipCode}, ${address.country}`;
 
 	const [name, setName] = useState(event.Title);
