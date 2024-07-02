@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import GoogleMapInt from './GoogleMapInt';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'sonner';
+import { BsTrash3 } from "react-icons/bs";
 
 function EditEvent() {
 	const location = useLocation();
@@ -126,180 +126,173 @@ function EditEvent() {
 	}, []);
 
 	return (
-		<div className="flex gap-5 p-10">
-			<form
-				className="w-full max-w-2xl grid grid-cols-1 md:grid-cols-2 gap-6"
-				data-theme="cyberpunk"
-				onSubmit={handleSubmit}
-			>
-				<h1 className="text-3xl font-bold mb-4 md:col-span-2">Edit Event</h1>
+    <div className="flex gap-5 p-10 justify-center">
+      <form
+        className="w-full max-w-2xl grid grid-cols-1 md:grid-cols-2 gap-6"
+        data-theme="cyberpunk"
+        onSubmit={handleSubmit}
+      >
+        <h1 className="text-3xl font-bold mb-4 md:col-span-2">Edit Event</h1>
 
-				<div className="form-control">
-					<label className="label">
-						<span className="label-text">Name:</span>
-					</label>
-					<input
-						type="text"
-						value={name}
-						onChange={(e) => setName(e.target.value)}
-						placeholder={event.Title}
-						className="input input-bordered w-full"
-					/>
-				</div>
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Name:</span>
+          </label>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder={event.Title}
+            className="input input-bordered w-full"
+          />
+        </div>
 
-				<div className="form-control">
-					<label className="label">
-						<span className="label-text">Date:</span>
-					</label>
-					<input
-						type="date"
-						value={date}
-						onChange={(e) => setDate(e.target.value)}
-						placeholder={event.Date}
-						className="input input-bordered w-full"
-					/>
-				</div>
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Date:</span>
+          </label>
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            placeholder={event.Date}
+            className="input input-bordered w-full"
+          />
+        </div>
 
-				<div className="form-control">
-					<label className="label">
-						<span className="label-text">Time:</span>
-					</label>
-					<input
-						type="time"
-						value={time}
-						onChange={(e) => setTime(e.target.value)}
-						placeholder={event.Time}
-						className="input input-bordered w-full"
-					/>
-				</div>
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Time:</span>
+          </label>
+          <input
+            type="time"
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+            placeholder={event.Time}
+            className="input input-bordered w-full"
+          />
+        </div>
 
-				<div className="form-control">
-					<label className="label">
-						<span className="label-text">Street and number:</span>
-					</label>
-					<input
-						type="text"
-						name="streetName"
-						value={address.streetName}
-						onChange={handleChange}
-						placeholder={locationParts[0] || ''}
-						className="input input-bordered w-full"
-					/>
-				</div>
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Street and number:</span>
+          </label>
+          <input
+            type="text"
+            name="streetName"
+            value={address.streetName}
+            onChange={handleChange}
+            placeholder={locationParts[0] || ""}
+            className="input input-bordered w-full"
+          />
+        </div>
 
-				<div className="form-control">
-					<label className="label">
-						<span className="label-text">Zip Code:</span>
-					</label>
-					<input
-						type="text"
-						name="zipCode"
-						value={address.zipCode}
-						onChange={handleChange}
-						className="input input-bordered w-full"
-					/>
-				</div>
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Zip Code:</span>
+          </label>
+          <input
+            type="text"
+            name="zipCode"
+            value={address.zipCode}
+            onChange={handleChange}
+            className="input input-bordered w-full"
+          />
+        </div>
 
-				<div className="form-control">
-					<label className="label">
-						<span className="label-text">City:</span>
-					</label>
-					<input
-						type="text"
-						name="city"
-						value={address.city}
-						onChange={handleChange}
-						className="input input-bordered w-full"
-					/>
-				</div>
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">City:</span>
+          </label>
+          <input
+            type="text"
+            name="city"
+            value={address.city}
+            onChange={handleChange}
+            className="input input-bordered w-full"
+          />
+        </div>
 
-				<div className="form-control">
-					<label className="label">
-						<span className="label-text">Country:</span>
-					</label>
-					<input
-						type="text"
-						name="country"
-						value={address.country}
-						onChange={handleChange}
-						className="input input-bordered w-full"
-					/>
-				</div>
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Country:</span>
+          </label>
+          <input
+            type="text"
+            name="country"
+            value={address.country}
+            onChange={handleChange}
+            className="input input-bordered w-full"
+          />
+        </div>
 
-				<div className="form-control">
-					<label className="label">
-						<span className="label-text">Venue:</span>
-					</label>
-					<input
-						type="text"
-						name="venue"
-						value={venue}
-						onChange={(e) => setVenue(e.target.value)}
-						placeholder={event.Venue}
-						className="input input-bordered w-full"
-					/>
-				</div>
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Venue:</span>
+          </label>
+          <input
+            type="text"
+            name="venue"
+            value={venue}
+            onChange={(e) => setVenue(e.target.value)}
+            placeholder={event.Venue}
+            className="input input-bordered w-full"
+          />
+        </div>
 
-				<div className="form-control">
-					<label className="label">
-						<span className="label-text">Price:</span>
-					</label>
-					<input
-						type="number"
-						name="price"
-						value={price}
-						onChange={(e) => setPrice(e.target.value)}
-						placeholder={event.Price}
-						className="input input-bordered w-full"
-					/>
-				</div>
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Price:</span>
+          </label>
+          <input
+            type="number"
+            name="price"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            placeholder={event.Price}
+            className="input input-bordered w-full"
+          />
+        </div>
 
-				<div className="form-control md:col-span-2">
-					<label className="label">
-						<span className="label-text">Description:</span>
-					</label>
-					<textarea
-						className="textarea textarea-bordered w-full"
-						value={description}
-						onChange={(e) => setDescription(e.target.value)}
-						placeholder={event.Description}
-					></textarea>
-				</div>
+        <div className="form-control md:col-span-2">
+          <label className="label">
+            <span className="label-text">Description:</span>
+          </label>
+          <textarea
+            className="textarea textarea-bordered w-full"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder={event.Description}
+          ></textarea>
+        </div>
 
-				<div className="form-control md:col-span-2">
-					<label className="label">
-						<span className="label-text">Add an image:</span>
-					</label>
-					<input
-						type="file"
-						accept="image/*"
-						onChange={(e) => setFile(e.target.files[0])}
-						className="file-input file-input-bordered w-full"
-					/>
-				</div>
+        <div className="form-control md:col-span-2">
+          <label className="label">
+            <span className="label-text">Add an image:</span>
+          </label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setFile(e.target.files[0])}
+            className="file-input file-input-bordered w-full"
+          />
+        </div>
 
-				<div className="md:col-span-2">
-					<button className="btn btn-primary w-full" type="submit">
-						Submit
-					</button>
-					<button
-						className="btn btn-primary w-full"
-						type="button"
-						onClick={handleDelete}
-					>
-						Delete
-					</button>
-				</div>
-			</form>
-			<div className="w-full max-w-lg">
-				<GoogleMapInt
-					lat={coordinates.lat}
-					lng={coordinates.lng}
-					address={address}
-				/>
-			</div>
-		</div>
-	);
+        <div className="md:col-span-2 flex justify-around flex-wrap gap-4">
+          <button className="btn btn-outline btn-info w-36" type="submit">
+            Submit
+          </button>
+          <button
+            className="btn btn-outline btn-error w-36"
+            type="button"
+            onClick={handleDelete}
+          >
+            <BsTrash3 />
+          </button>
+        </div>
+      </form>
+    </div>
+  );
 }
 
 export default EditEvent;
