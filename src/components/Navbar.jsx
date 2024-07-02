@@ -2,9 +2,9 @@ import { useContext, useState, useEffect } from "react";
 import { MdOutlineLogin } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
-import DropdownMenu from "./DropdownMenu";
 import { UserContext } from "./UserContext";
 import { data } from "autoprefixer";
+import Logout from "./Logout";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -13,14 +13,12 @@ export default function Navbar() {
   const [suggestions, setSuggestions] = useState([]);
   const [allEvents, setAllEvents] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
-
+  
   const navigateToAuthForm = () => {
     navigate("/auth");
   };
+
+  
 
   useEffect(() => {
     const fetchURL = import.meta.env.VITE_FETCH_URL;
@@ -66,7 +64,7 @@ export default function Navbar() {
           />
         </Link>
       </div>
-      {user && <DropdownMenu />}
+
       <div className="flex-none gap-2 relative">
         <div className="form-control">
           <input
@@ -90,20 +88,6 @@ export default function Navbar() {
             </div>
           )}
         </div>
-        {userTrunc && (
-          <div
-            className="avatar placeholder relative"
-            onClick={() => toggleDropdown()}
-            role="button"
-            tabIndex="0"
-
-          >
-            <div className="bg-neutral text-neutral-content w-14 rounded-full">
-              <span className="text-xl">{userTrunc}</span>
-            </div>
-            <div className=" overflow-scroll ">{isOpen && <DropdownMenu isOpen={true} toggle={true} />}</div>
-          </div>
-        )}
 
         <label className="swap swap-rotate">
           <input type="checkbox" className="theme-controller" value="night" />
@@ -122,6 +106,42 @@ export default function Navbar() {
             <path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z" />
           </svg>
         </label>
+        <div className="dropdown dropdown-end ">
+          <div
+            tabIndex={0}
+            role="button"
+            className="btn btn-ghost btn-circle avatar"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {userTrunc && (
+              <div className="avatar placeholder w-32 rounded-full bg-neutral ">
+                <div className=" text-neutral-content">
+                  <span className="text-xl">{userTrunc}</span>
+                </div>
+              </div>
+            )}
+          </div>
+          {isOpen && (
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-56 p-2 shadow"
+            >
+              <li onClick={() => setIsOpen(!isOpen)}>
+                <Link to="/create-event">
+                  <a className="justify-between">Create event</a>
+                </Link>
+              </li>
+              <li onClick={() => setIsOpen(!isOpen)}>
+                <Link to="/events-by-organizer">
+                  <a>See your events</a>
+                </Link>
+              </li>
+              <li onClick={() => setIsOpen(!isOpen)}>
+                <Logout />
+              </li>
+            </ul>
+          )}
+        </div>
         <div>
           {!user && (
             <button
