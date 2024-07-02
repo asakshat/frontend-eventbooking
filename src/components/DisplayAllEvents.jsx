@@ -42,7 +42,7 @@ function DisplayAllEvents() {
 					Events
 				</h1>
 			</div>
-			<div className="flex flex-wrap gap-9 justify-center ">
+			<div className="flex flex-wrap gap-9 items-center">
 				{!events
 					? Array.from({ length: 6 }).map((_, index) => (
 							<div
@@ -88,7 +88,7 @@ function DisplayAllEvents() {
 										Price: {event.Price}€
 									</p>
 								</div>
-								<div className="flex gap-2 mt-4 justify-around">
+								<div className="flex gap-2 mt-4 ">
 									<Link to={`/event/${event.ID}`} state={event}>
 										<button className="btn btn-primary w-20">See Event</button>
 									</Link>
