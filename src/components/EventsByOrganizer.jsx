@@ -53,8 +53,7 @@ function EventsByOrganizer() {
       <div className="flex flex-col">
         <h1 className="text-8xl font-bold">{user.user.Username}'s Events</h1>
         <p className="text-2xl font-bold py-10">
-          Here you can find all events. Search and book easily with just a few
-          clicks!
+          Here you can find all your events, edit or delete them easily in just a few clicks!
         </p>
       </div>
       <div className="flex flex-wrap gap-9">
@@ -103,7 +102,7 @@ function EventsByOrganizer() {
                     Price: {event.Price}€
                   </p>
                 </div>
-                <div className="flex gap-2 mt-4">
+                <div className="flex gap-2 mt-4 justify-around">
                   <Link to={`/event/${event.ID}`} state={event}>
                     <button className="btn btn-primary w-20">See Event</button>
                   </Link>
