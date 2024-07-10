@@ -2,6 +2,11 @@
 
 Front end repo for the event booking app
 
+- Register and veritfy your account 
+- Login to Create / Modify an event 
+- You can book events without being logged in
+- and more !!! ...
+
 ## Instructions
 
 1.  Clone the repo:-
